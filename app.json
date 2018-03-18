@@ -1,5 +1,6 @@
 {
   "expo": {
+    "entryPoint":"./AppEntry.js",
     "sdkVersion": "25.0.0",
     "android": {
       "package": "com.mooph.testApp"
