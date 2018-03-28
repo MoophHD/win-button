@@ -22,6 +22,7 @@
     "expo": "^25.0.0",
     "native-base": "^2.3.10",
     "react": "16.2.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz"
+    "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
+    "react-native-easy-grid": "^0.1.17"
   }
 }

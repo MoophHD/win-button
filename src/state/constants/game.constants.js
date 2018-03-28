@@ -1,1 +1,1 @@
-export const ADD = 'ADD';
+export const ON_SOLVE = 'ON_SOLVE';

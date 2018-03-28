@@ -1,7 +1,8 @@
-import { ADD } from '../constants/game.constants';
+import { ON_SOLVE } from '../constants/game.constants';
 
-export function add() {
+export function onSolve(id) {
     return {
-        type: ADD
+        type: ON_SOLVE,
+        id
     }
 }

@@ -1,50 +1,40 @@
-import React, { Component } from 'react';
+import React, { Component, cloneElement } from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Body, Button, Text } from 'native-base';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as actions from 'state/actions/game.actions';
 
-const StyledBody = styled(Body)`
-  align-items: center;
-  justify-content: center;
+import FirstLevel from '../FirstLevel';
+
+let Container = styled.View`
+  flex-grow: 1;
 `
 
-const Title = styled(Text)`
-  font-size: 50px;
-  margin-bottom: 35px;
-`
-
-const StyledBtn = styled(Button)`
-  height: 75px;
-  width: 150px;
-  justify-content: center;
-  align-items: center;
-`
 class Main extends Component {
+  componentWillMount() {
+    this.lvlProps = { onSolve: this.props.actions.onSolve};
+  }
   render() {
-    const { actions, counter } = this.props;
+    const { current, counter } = this.props;
+    
+    let lvlToRender = cloneElement(lvlLegend[current], this.lvlProps);   
+    
     return (
       <Container>
-        <StyledBody>
-          <Title>{counter}</Title>
-          <StyledBtn onPress={() => actions.add()}>
-            <Text>
-              Add
-            </Text>
-          </StyledBtn>
-        </StyledBody>
+        {lvlToRender}
       </Container>
-  )
-
+    )
   }
 }
 
 
 function mapStateToProps (state) {
   return {
-    counter: state.counter
+    ids: state.ids,
+    byid: state.byid,
+    current: state.current
   }
 }
 
@@ -55,7 +45,13 @@ function mapDispatchToProps(dispatch) {
 }
 
 Main.propTypes = {
-  counter: PropTypes.number
+  ids: PropTypes.array,
+  byid: PropTypes.object,
+  target: PropTypes.number
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
+const lvlLegend = {
+  0: <FirstLevel />
+} 
