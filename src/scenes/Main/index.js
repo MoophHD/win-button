@@ -7,6 +7,7 @@ import styled from 'styled-components/native';
 import * as actions from 'state/actions/game.actions';
 
 import FirstLevel from '../FirstLevel';
+import AboutTime from '../AboutTime';
 
 let Container = styled.View`
   flex-grow: 1;
@@ -14,7 +15,8 @@ let Container = styled.View`
 
 class Main extends Component {
   componentWillMount() {
-    this.lvlProps = { onSolve: this.props.actions.onSolve};
+    const { onSolve, nextLvl } = this.props.actions;
+    this.lvlProps = { onSolve, nextLvl };
   }
   render() {
     const { current, counter } = this.props;
@@ -53,5 +55,6 @@ Main.propTypes = {
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const lvlLegend = {
-  0: <FirstLevel />
+  0: <FirstLevel />,
+  1: <AboutTime />
 } 

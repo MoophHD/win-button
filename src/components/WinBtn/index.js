@@ -3,18 +3,20 @@ import PropTypes from 'prop-types';
 import PanWrapper from '../PanWrapper';
 import { Image, View } from 'react-native';
 import styled from 'styled-components';
-
+import ImageSequence from '../ImageSequence';
 
 const legend = {
     happy: {
-        unpressed: require("assets/winBtnHappy.png"),
-        pressed: require("assets/winBtnHappyPressed.png"),
+        unpressed: 0,
+        pressed: 1
     },
     sad: {
-        unpressed: require("assets/winBtnSad.png"),
-        pressed: require("assets/winBtnSadPressed.png"),
+        unpressed: 2,
+        pressed: 3
     }
 }
+
+const imgs = [require("assets/winBtn/happyUnpressed.png"), require("assets/winBtn/happyPressed.png"), require("assets/winBtn/sadUnpressed.png"), require("assets/winBtn/sadPressed.png")];
 let imgBounds = {
     w: 407,
     h: 414
@@ -28,12 +30,6 @@ const Wrapper = styled(View)`
     height: ${height}px;
     width: ${width}px;
     background-color: transparent;
-`
-
-const MyImage = styled.Image`
-    flex:1;
-    height: undefined;
-    width: undefined;
 `
 
 class WinBtn extends Component {
@@ -61,17 +57,21 @@ class WinBtn extends Component {
         const { isActive } = this.props;
         let face = isActive ? 'happy' : 'sad';
         let press = this.state.isPressed ? 'pressed' : 'unpressed';
+        
+        let key = legend[face][press];
         return(
-            <Wrapper >
+            <Wrapper>
                 <PanWrapper onTap={this.handlePress} onRelease={() => this.setPressed(false)}>
-                    <MyImage 
-                        resizeMode="cover"
-                        source={legend[face][press]}/>
+                    <ImageSequence index={key} images={imgs}/>
                 </PanWrapper>
             </Wrapper>
         )
     }
 }
+
+//   <MyImage 
+                        
+//                         source={legend[face][press]}/>
 
 WinBtn.propTypes = {
     onPress: PropTypes.func,

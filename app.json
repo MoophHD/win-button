@@ -3,7 +3,7 @@
     "entryPoint":"./AppEntry.js",
     "sdkVersion": "25.0.0",
     "android": {
-      "package": "com.mooph.testApp"
+      "package": "com.mooph.winButton"
     },
     "privacy": "unlisted",
     "name": "",
