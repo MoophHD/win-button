@@ -16,13 +16,19 @@ let Container = styled.View`
 class Main extends Component {
   componentWillMount() {
     const { onSolve, nextLvl } = this.props.actions;
-    this.lvlProps = { onSolve, nextLvl };
+    this.lvlProps = { nextLvl };
   }
   render() {
-    const { current, counter } = this.props;
-    
-    let lvlToRender = cloneElement(lvlLegend[current], this.lvlProps);   
-    
+    const { current, counter, byid } = this.props;
+    console.log(byid);
+    let lvlToRender = cloneElement(
+      lvlLegend[current], 
+        { ...this.lvlProps, 
+        onSolve: this.props.actions.onSolve.bind(null, current),
+        isSolved: byid[current].solved
+        }
+      );   
+      
     return (
       <Container>
         {lvlToRender}

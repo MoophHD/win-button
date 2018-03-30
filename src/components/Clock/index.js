@@ -29,7 +29,7 @@ class Clock extends Component {
     
     render() {
         const { angle, onPress } = this.props;
-        
+        console.log('onPress', onPress);
         return (
             <Wrapper>
                 <PanWrapper onPress={onPress}>

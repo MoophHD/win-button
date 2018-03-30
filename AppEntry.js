@@ -4,19 +4,22 @@ import configureStore from './src/state/configureStore';
 import App from './src/App';
 import { KeepAwake, registerRootComponent } from 'expo';
 import { Font } from 'expo';
-import { View } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 
 if (__DEV__) {
   KeepAwake.activate();
 }
 
+const initialState = {ids: [0,1,2]};
 
-const store = configureStore();
+let store = configureStore();
 
 export default class AppEntry extends Component {
     constructor(props) {
     super(props);
-    this.state = { fontLoaded: false };
+    this.state = { 
+      dataLoaded: false
+    };
   }
   
   async componentWillMount() {
@@ -24,18 +27,55 @@ export default class AppEntry extends Component {
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
     });
-    this.setState({ fontLoaded: true });
+    
+    let solved, current;
+    try {
+        const storeSolved = await AsyncStorage.getItem('solved');
+        const storeCurrent = await AsyncStorage.getItem('current');
+        solved = storeSolved ? JSON.parse(storeSolved) : [];
+        current = storeCurrent ? +storeCurrent : 0;
+    } catch (error) {
+        console.log('get data error:', error);
+        solved = [];
+        current = 0;
+    }
+        
+    store = this.buildStore(current, solved);
+    this.setState({ dataLoaded: true });
   }
   
+  buildStore(current, solved) {
+        let byid = {};
+        initialState.ids.forEach((id) => {
+          // if id is in solved array
+          byid[id] = {
+            solved: solved.indexOf(id) != -1
+          }
+        })
+        
+        let state = {
+          ...initialState,
+          current: 0,
+          byid
+        }
+        
+        return configureStore(state);
+      }
+  
   render() {
-    return (
-      <Provider store={store}>
-        <View style={{flexGrow: 1}}>
-          {this.state.fontLoaded && <App />}
-        </View>
-      </Provider>
-    );
+    return (     
+        this.state.dataLoaded &&
+        <Provider store={store}>
+            <View style={{flexGrow: 1}}>
+                <App />
+            </View>
+          </Provider>
+        
+      )
   }
+
+      
+    
 }
 
 
