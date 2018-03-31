@@ -1,4 +1,4 @@
-import { ON_SOLVE, NEXT_LVL } from '../constants/game.constants';
+import { ON_SOLVE, NEXT_LVL, CLEAR } from '../constants/game.constants';
 
 export function onSolve(id) {
     return {
@@ -12,3 +12,10 @@ export function nextLvl() {
         type: NEXT_LVL
     }
 }
+
+export function clear() {
+    return {
+        type: CLEAR
+    }
+}
+

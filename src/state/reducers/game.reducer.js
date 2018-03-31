@@ -1,11 +1,12 @@
 import { AsyncStorage } from 'react-native';
 import { 
     ON_SOLVE,
-    NEXT_LVL
+    NEXT_LVL,
+    CLEAR
 } from '../constants/game.constants';
 
 const initialState = {
-    current: 1,
+    current: 0,
     ids: [0, 1],
     byid: {
         0: {
@@ -19,6 +20,24 @@ const initialState = {
 
 export default (state=initialState, action) => {
     switch(action.type) {
+        case CLEAR: {
+            AsyncStorage.clear();
+            let nextByid = {...state.byid};
+            let stateIds = state.ids;
+            let id;
+            for (let i = 0; i < stateIds; i++) {
+                id = stateIds[i];
+                //if finds smth unsolved
+                if (!nextByid[id].isSolved) break;
+                
+                nextByid[id].isSolved = false;
+            }
+            
+            return {...state, 
+                    current: 0,
+                    byid: nextByid
+                };
+        }
         case ON_SOLVE: {
             //save somewhere
             let storeSolved = getData("solved");

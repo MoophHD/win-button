@@ -14,7 +14,6 @@ const ClockImg = styled.Image`
 //182 183
 
 const Wrapper = styled.View`
-
     flex: 1;
 `
 
@@ -29,7 +28,6 @@ class Clock extends Component {
     
     render() {
         const { angle, onPress } = this.props;
-        console.log('onPress', onPress);
         return (
             <Wrapper>
                 <PanWrapper onPress={onPress}>
@@ -41,7 +39,7 @@ class Clock extends Component {
 }
 
 Clock.propTypes = {
-    onPress: PropTypes.func
+    // onPress: PropTypes.func //alerts on nothing for some reason
 }
 
 export default Clock;

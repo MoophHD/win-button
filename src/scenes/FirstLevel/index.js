@@ -27,6 +27,10 @@ class FirstLevel extends Component {
         this.setState(() => ({ isWin: true }));
         this.props.onSolve();
     }
+    
+    handleWinBtnPress() {
+        if(this.state.isWin) this.props.nextLvl();
+    }
 
     render() {
         return(
@@ -37,7 +41,7 @@ class FirstLevel extends Component {
                         size={60}
                         style={{alignItems: 'center', justifyContent: 'center'}}>
                         <WinBtn 
-                            onPress={() => { if(this.state.isWin) this.props.nextLvl() } }
+                            onPress={() => this.handleWinBtnPress()}
                             isActive={this.state.isWin}/>
                     </Row>
                     <Row size={40} style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -49,10 +53,10 @@ class FirstLevel extends Component {
     }
 }
 
-
 FirstLevel.propTypes = {
-    onSolve: PropTypes.func.isRequired,
-    nextLvl: PropTypes.func.isRequired
+    onSolve: PropTypes.func,
+    isSolved: PropTypes.bool,
+    nextLvl: PropTypes.func
 }
 
 export default FirstLevel;
