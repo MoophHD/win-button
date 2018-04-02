@@ -55,7 +55,7 @@ export default class AppEntry extends Component {
         
         let state = {
           ...initialState,
-          current: 0,
+          current,
           byid
         }
         

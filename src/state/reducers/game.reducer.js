@@ -25,12 +25,11 @@ export default (state=initialState, action) => {
             let nextByid = {...state.byid};
             let stateIds = state.ids;
             let id;
-            for (let i = 0; i < stateIds; i++) {
+            for (let i = 0; i < stateIds.length; i++) {
                 id = stateIds[i];
                 //if finds smth unsolved
-                if (!nextByid[id].isSolved) break;
-                
-                nextByid[id].isSolved = false;
+                if (!nextByid[id].solved) break;
+                nextByid[id].solved = false;
             }
             
             return {...state, 
@@ -44,7 +43,7 @@ export default (state=initialState, action) => {
             let solvedArr = storeSolved || [];
             setData("solved", [...solvedArr, action.id]);
             return {...state, byid: {...state.byid,
-                [action.id]: { isSolved: true }
+                [action.id]: { solved: true }
             }}
         }
         case NEXT_LVL: {

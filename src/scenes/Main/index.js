@@ -16,32 +16,38 @@ let Container = styled.View`
   position: relative;
 `
 
-const soundSrc = require("assets/main/main.mp3");
 class Main extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
-      sound: new Expo.Audio.Sound(),
       isPaused: false
     }
     
     this.handleSolve = this.handleSolve.bind(this);
     this.handleNextLvl = this.handleNextLvl.bind(this);
-    this.onPlaybackStatusUpdate = this.onPlaybackStatusUpdate.bind(this);
     this.setPause = this.setPause.bind(this);
   }
   
-  shouldComponentUpdate(nextProps, nextState){
-    const differentCurrent = this.props.current != nextProps.current;
-    const differentByid = this.props.byid != nextProps.byid;
-    const differentPauseState = this.state.isPaused != nextState.isPaused;
-    return differentCurrent || differentByid || differentPauseState;
+  async componentWillMount() {
+    AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/1033173712'); // Test ID, Replace with your-admob-unit-id
+    // AdMobInterstitial.addEventListener("interstitialDidLoad", () => console.log('ad loaded'));
+    await AdMobInterstitial.requestAd();
+    
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if (this.state.isPaused) {
+        this.setPause(false)
+      }
+    });
   }
   
+  setPause(isPause) {
+   this.setState(() => ({isPaused: isPause}));
+  }
+    
   handleSolve() {
     const { current, byid } = this.props;
-    if (byid[current].isSolved ) return;
+    if (byid[current].solved ) return;
     
     this.props.actions.onSolve(current);
   }
@@ -54,50 +60,14 @@ class Main extends Component {
     }
   }
   
-  async componentWillMount() {
-    AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/1033173712'); // Test ID, Replace with your-admob-unit-id
-    AdMobInterstitial.setTestDeviceID('EMULATOR');
-    
-    // AdMobInterstitial.addEventListener("interstitialDidFailToLoad", () => console.log('ad load failed'));
-    // AdMobInterstitial.addEventListener("interstitialDidLoad", () => console.log('ad loaded'));
-    
-    await AdMobInterstitial.requestAd();
-    
-    
-    await this.state.sound.loadAsync(require('assets/main/main.mp3'));
-    this._playSound();
-    this.state.sound.setOnPlaybackStatusUpdate(this.onPlaybackStatusUpdate);
-    
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      if (this.state.isPaused) {
-        this.setPause(false)
-      }
-    });
+  shouldComponentUpdate(nextProps, nextState){
+    const differentCurrent = this.props.current != nextProps.current;
+    const differentByid = this.props.byid != nextProps.byid;
+    const differentPauseState = this.state.isPaused != nextState.isPaused;
+    return differentCurrent || differentByid || differentPauseState;
   }
-  
-  setPause(isPause) {
-  console.log("set Pause", isPause);
-console.log(this.state);
-   this.setState(() => ({isPaused: isPause}));
-  }
-  
-  onPlaybackStatusUpdate(status) {
-    if (status.didJustFinish) this._playSound();
-  }
-  
-    async _playSound() {
-        const sound = this.state.sound;
-        try {
-          await sound.setPositionAsync(0);
-          await sound.playAsync(); //This works, but just only once!
-        }
-        catch (error) {
-         console.log('switch sound error: ', error);
-        }
-    }
-  
+
   render() {
-    console.log('isPaused', this.state.isPaused);
     const { current, byid, ids } = this.props;
     const { isPaused } = this.state;
     let lvlToRender = cloneElement(

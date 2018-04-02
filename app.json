@@ -6,8 +6,8 @@
       "package": "com.mooph.winButton"
     },
     "privacy": "unlisted",
-    "name": "",
-    "slug": "",
+    "name": "winBtn",
+    "slug": "winBtn",
     "version": "0.1.0",
     "isDetached": false,
     "detach": {

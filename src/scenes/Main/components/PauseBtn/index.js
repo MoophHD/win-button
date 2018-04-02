@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { TouchableOpacity } from 'react-native';
-import { Octicons } from '@expo/vector-icons'
+import { TouchableOpacity, Alert } from 'react-native';
+import { Octicons } from '@expo/vector-icons';
 
 const COLOR = '#fff';
 const SensitiveWrapper = styled(TouchableOpacity)`

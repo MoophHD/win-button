@@ -16,20 +16,15 @@ class FirstLevel extends Component {
     constructor(props) {
         super(props);
         
-        this.state = {
-            isWin: props.isSolved
-        }
-        
         this.handleSwitcherPress = this.handleSwitcherPress.bind(this);
     }
     
     handleSwitcherPress() {
-        this.setState(() => ({ isWin: true }));
         this.props.onSolve();
     }
     
     handleWinBtnPress() {
-        if(this.state.isWin) this.props.nextLvl();
+        if (this.props.isSolved) this.props.nextLvl();
     }
 
     render() {
@@ -42,7 +37,7 @@ class FirstLevel extends Component {
                         style={{alignItems: 'center', justifyContent: 'center'}}>
                         <WinBtn 
                             onPress={() => this.handleWinBtnPress()}
-                            isActive={this.state.isWin}/>
+                            isActive={this.props.isSolved}/>
                     </Row>
                     <Row size={40} style={{alignItems: 'center', justifyContent: 'center'}}>
                         <Switcher onPress={this.handleSwitcherPress} />

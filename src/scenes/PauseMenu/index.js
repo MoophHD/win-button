@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import * as actions from 'state/actions/game.actions';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Button, Text } from 'native-base';
 import styled from 'styled-components';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 
 const activeCl = "#D95459";
-const inactiveCl = "#EF727A";
+const inactiveCl = "#a5a5a5";
 
 const Wrapper = styled(View)`
     position: absolute;
@@ -43,12 +43,20 @@ class PauseMenu extends Component {
     }
     
     clear() {
-        this.props.actions.clear();
+        Alert.alert(
+          'Alert',
+          'You are going to delete all your progress',
+          [
+            {text: 'Cancel', style: 'cancel'},
+            {text: 'OK', onPress: () => this.props.actions.clear()},
+          ],
+          { cancelable: true }
+        )
     }
     
     render() {
-        const { isVisible, isClearAvailable} = this.props;
-        console.log('pause menu is visible', isVisible);
+        const { isClearAvailable } = this.props;
+        console.log("is clear available", isClearAvailable);
         return(
 
             <Wrapper>
