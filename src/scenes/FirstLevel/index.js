@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { View } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
-
-import Background from '../../components/Background';
 import WinBtn from '../../components/WinBtn';
-import Switcher from '../../components/Switcher';
+import Button from '../../components/Button';
 
 const Container = styled.View`
     flex-grow: 1;
@@ -16,31 +14,42 @@ class FirstLevel extends Component {
     constructor(props) {
         super(props);
         
+        this.state = {
+            isWinBtnActive: false
+        }
+        
         this.handleSwitcherPress = this.handleSwitcherPress.bind(this);
     }
     
     handleSwitcherPress() {
-        this.props.onSolve();
+        this.setActive(true, () => setTimeout(() => this.setActive(false), 75));
+    }
+    
+    setActive(isActive, cb) {
+        this.setState(() => ({ isWinBtnActive: isActive }), () => { if (cb) cb() });
     }
     
     handleWinBtnPress() {
-        if (this.props.isSolved) this.props.nextLvl();
+        this.props.onSolve();
+        this.props.nextLvl();
     }
 
     render() {
+        const { isSolved } = this.props;
+        const { isWinBtnActive } = this.state;
+        
         return(
             <Container>
-                <Background />
                 <Grid>
                     <Row 
                         size={60}
                         style={{alignItems: 'center', justifyContent: 'center'}}>
                         <WinBtn 
                             onPress={() => this.handleWinBtnPress()}
-                            isActive={this.props.isSolved}/>
+                            isActive={ isWinBtnActive || isSolved }/>
                     </Row>
                     <Row size={40} style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Switcher onPress={this.handleSwitcherPress} />
+                        <Button onPress={this.handleSwitcherPress} />
                     </Row>
                 </Grid>
             </Container>

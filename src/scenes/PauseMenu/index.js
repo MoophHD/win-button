@@ -56,7 +56,6 @@ class PauseMenu extends Component {
     
     render() {
         const { isClearAvailable } = this.props;
-        console.log("is clear available", isClearAvailable);
         return(
 
             <Wrapper>

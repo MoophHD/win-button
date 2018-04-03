@@ -25,7 +25,8 @@ export default class AppEntry extends Component {
   async componentWillMount() {
     await Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
-      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+      Raleway: require("assets/fonts/Raleway.ttf")
     });
     
     let solved, current;
@@ -45,6 +46,10 @@ export default class AppEntry extends Component {
   }
   
   buildStore(current, solved) {
+      //
+        const IS_AD_FREE = true;
+        
+    //
         let byid = {};
         initialState.ids.forEach((id) => {
           // if id is in solved array
@@ -56,7 +61,8 @@ export default class AppEntry extends Component {
         let state = {
           ...initialState,
           current,
-          byid
+          byid,
+          isAdFree: IS_AD_FREE
         }
         
         return configureStore(state);

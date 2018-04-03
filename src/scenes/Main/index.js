@@ -8,6 +8,9 @@ import * as actions from 'state/actions/game.actions';
 import Expo, { AdMobInterstitial } from 'expo';
 import PauseMenu from '../PauseMenu';
 import PauseBtn from './components/PauseBtn';
+import LvlTitle from './components/LvlTitle';
+import Background from '../../components/Background';
+
 import FirstLevel from '../FirstLevel';
 import AboutTime from '../AboutTime';
 
@@ -23,6 +26,8 @@ class Main extends Component {
     this.state = {
       isPaused: false
     }
+    
+    this._solvedFlag = false;
     
     this.handleSolve = this.handleSolve.bind(this);
     this.handleNextLvl = this.handleNextLvl.bind(this);
@@ -49,15 +54,19 @@ class Main extends Component {
     const { current, byid } = this.props;
     if (byid[current].solved ) return;
     
+    this._solvedFlag = true;
     this.props.actions.onSolve(current);
   }
   
   async handleNextLvl() {
-    if (AdMobInterstitial.isReady) {
+    if (!this._solvedFlag) return;
+    this._solvedFlag = false;
+    
+    if (!this.props.isAdFree && AdMobInterstitial.isReady) {
       await AdMobInterstitial.showAd();
-      
-      this.props.actions.nextLvl();
     }
+    
+    this.props.actions.nextLvl();
   }
   
   shouldComponentUpdate(nextProps, nextState){
@@ -70,16 +79,20 @@ class Main extends Component {
   render() {
     const { current, byid, ids } = this.props;
     const { isPaused } = this.state;
+    const { component, name } = lvlLegend[current];
     let lvlToRender = cloneElement(
-      lvlLegend[current], 
+        component, 
         { ...this.lvlProps, 
           onSolve: this.handleSolve,
           isSolved: byid[current].solved,
           nextLvl: this.handleNextLvl
         }
-      );   
+      );
     return (
       <Container>
+        <Background />
+        
+        <LvlTitle name={name}/>
         {lvlToRender}
         <PauseBtn onPress={() => this.setPause(true)}/>
         { isPaused && <PauseMenu
@@ -96,7 +109,8 @@ function mapStateToProps (state) {
   return {
     ids: state.ids,
     byid: state.byid,
-    current: state.current
+    current: state.current,
+    isAdFree: state.isAdFree
   }
 }
 
@@ -109,12 +123,13 @@ function mapDispatchToProps(dispatch) {
 Main.propTypes = {
   ids: PropTypes.array,
   byid: PropTypes.object,
-  target: PropTypes.number
+  target: PropTypes.number,
+  isAdFree: PropTypes.bool
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const lvlLegend = {
-  0: <FirstLevel />,
-  1: <AboutTime />
+  0: { component: <FirstLevel />, name: "Think Quick" },
+  1: { component: <AboutTime />, name: "It's AboutTime" }
 } 

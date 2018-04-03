@@ -6,11 +6,13 @@ import {
 } from '../constants/game.constants';
 
 const initialState = {
+    isAdFree: false,
     current: 0,
     ids: [0, 1],
     byid: {
         0: {
-            solved: false
+            solved: false,
+            
         },
         1: {
             solved: false
