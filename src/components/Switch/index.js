@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Image, View } from 'react-native';
-import PanWrapper from '../PanWrapper';
+import { Image, TouchableWithoutFeedback, View } from 'react-native';
 import styled from 'styled-components';
 import ImageSequence from '../ImageSequence';
-import SoundManager from "assets/audio/SoundManager";
+import SoundManager from 'assets/audio/SoundManager';
 import { IMG_SCALE } from 'config/metrics';
 
 const legend = {
@@ -13,8 +12,8 @@ const legend = {
 }
 
 const imgs = [
-    require("assets/btn/pressed.png"),
-    require("assets/btn/unpressed.png")
+    require("assets/switch/pressed.png"),
+    require("assets/switch/unpressed.png")
 ]
 
 const { width, height } = Image.resolveAssetSource(imgs[0]);
@@ -24,7 +23,7 @@ const Wrapper = styled(View)`
     position: relative;
 `
 
-class Button extends Component {
+class Switch extends PureComponent {
     constructor(props) {
         super(props);
         
@@ -36,31 +35,27 @@ class Button extends Component {
     }
     
     handlePress() {
-        SoundManager.play("btn").then(() => {
-            if(this.props.onPress) this.props.onPress();
-            
-            this.setPressed(true);
-        })
+        SoundManager.play("switch");
+        if (this.props.onPress) this.props.onPress();
+        this.setState(() => ({isPressed: !this.state.isPressed}));
     }
-    
-    setPressed(isPressed) {
-        this.setState(() => ({ isPressed }));
-    }
-    
+
     render() {
         let key = this.state.isPressed ? legend.pressed : legend.unpressed;
         return(
             <Wrapper>
-               <PanWrapper style={{position: 'absolute'}} onTap={this.handlePress} onRelease={() => this.setPressed(false)}>
-                    <ImageSequence index={key} images={imgs}/>
-                </PanWrapper>
+                <TouchableWithoutFeedback onPress={this.handlePress}>
+                    <View style={{flex: 1}}>
+                        <ImageSequence index={key} images={imgs}/>
+                    </View>
+                </TouchableWithoutFeedback>
             </Wrapper>
         )
     }
 }
 
-Button.propTypes = {
+Switch.propTypes = {
     onPress: PropTypes.func
 }
 
-export default Button;
+export default Switch;

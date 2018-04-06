@@ -12,9 +12,6 @@ const MyImage = styled(Image)`
 
 `
 
-    // height: undefined;
-    // width: undefined;
-
 class ImageSequence extends Component {
 
     shouldComponentUpdate(nextProps) {
@@ -28,9 +25,8 @@ class ImageSequence extends Component {
         let index = this.props.index;
         
         index = index == undefined ? 0 : index;
-        
         return (
-            <View style={{flexGrow: 1, position: 'relative'}}>
+            <View style={{flexGrow: 1, position: 'relative', backgroundColor: 'rgba(0,0,0,0)'}}>
                 { images.map((src, i) => (
                     <MyImage 
                         resizeMode="cover"

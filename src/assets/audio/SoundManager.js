@@ -1,0 +1,13 @@
+import AudioManager from './AudioManager';
+
+const sounds = {
+  "bell": require("./src/bell.mp3"),
+  "btn": require("./src/btn.mp3"),
+  "switch": require("./src/switch.mp3")
+}
+const SoundManager = new AudioManager(sounds);
+// MusicManager.loadAudio().then(() => {console.log("loaded")});
+
+// export const loadSounds = () => SoundManager.loadAudio();
+export const loadSounds = () => { console.log("loading sound"); return SoundManager.loadAudio() };
+export default SoundManager;

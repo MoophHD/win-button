@@ -6,6 +6,8 @@ import { KeepAwake, registerRootComponent } from 'expo';
 import { Font } from 'expo';
 import { View, AsyncStorage } from 'react-native';
 
+import SoundManager, { loadSounds } from 'assets/audio/SoundManager';
+
 if (__DEV__) {
   KeepAwake.activate();
 }
@@ -18,7 +20,7 @@ export default class AppEntry extends Component {
     constructor(props) {
     super(props);
     this.state = { 
-      dataLoaded: false
+      loaded: false
     };
   }
   
@@ -26,7 +28,8 @@ export default class AppEntry extends Component {
     await Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-      Raleway: require("assets/fonts/Raleway.ttf")
+      Raleway: require("assets/fonts/Raleway.ttf"),
+      MyriadProBold: require("assets/fonts/MyriadProBold.otf")
     });
     
     let solved, current;
@@ -41,15 +44,22 @@ export default class AppEntry extends Component {
         current = 0;
     }
         
-    store = this.buildStore(current, solved);
-    this.setState({ dataLoaded: true });
+    // this.buildStore(current, solved)
+    //     .then(loadSounds)
+    //     .then(() => this.setState({ loaded: true }));
+        
+                
+    this.buildStore(current, solved)
+        .then(loadSounds)
+        .then(() => { console.log("loaded everything"); this.setState(() => ({loaded: true})) });
   }
   
-  buildStore(current, solved) {
+    buildStore(current, solved) {
       //
         const IS_AD_FREE = true;
-        
     //
+    
+    
         let byid = {};
         initialState.ids.forEach((id) => {
           // if id is in solved array
@@ -65,12 +75,15 @@ export default class AppEntry extends Component {
           isAdFree: IS_AD_FREE
         }
         
-        return configureStore(state);
-      }
+        store = configureStore(state);
+        
+        console.log("loaded store");
+        return new Promise((res, rej) => res());
+    }
   
   render() {
     return (     
-        this.state.dataLoaded &&
+        this.state.loaded &&
         <Provider store={store}>
             <View style={{flexGrow: 1}}>
                 <App />

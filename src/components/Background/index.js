@@ -5,7 +5,7 @@ import { View } from 'react-native';
 const Abstraction = styled.View`
     height: 100%;
     width: 100%;
-    background-color: pink;
+    background-color: #E6E9E9;
     position: absolute;
 `
 

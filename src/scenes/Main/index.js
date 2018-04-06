@@ -130,6 +130,6 @@ Main.propTypes = {
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const lvlLegend = {
-  0: { component: <FirstLevel />, name: "Think Quick" },
-  1: { component: <AboutTime />, name: "It's AboutTime" }
+  0: { component: <FirstLevel />, name: "1st one real quick" },
+  1: { component: <AboutTime />, name: "It's About Time" }
 } 

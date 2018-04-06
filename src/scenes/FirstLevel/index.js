@@ -5,14 +5,20 @@ import { View } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import WinBtn from '../../components/WinBtn';
 import Button from '../../components/Button';
+import Switch from '../../components/Switch';
+import ToolTable from '../../components/ToolTable';
+import Note from '../../components/Note';
+import { CONTENT_WIDTH } from 'config/metrics';
 
 const Container = styled.View`
-    flex-grow: 1;
+    flex: 1;
+    width: ${CONTENT_WIDTH}px;
+    margin: auto;
 `
 
 class FirstLevel extends Component {
     constructor(props) {
-        super(props);
+        super(props); 
         
         this.state = {
             isWinBtnActive: false
@@ -30,8 +36,10 @@ class FirstLevel extends Component {
     }
     
     handleWinBtnPress() {
-        this.props.onSolve();
-        this.props.nextLvl();
+        if (this.state.isWinBtnActive) {
+            this.props.onSolve();
+            this.props.nextLvl();
+        }
     }
 
     render() {
@@ -41,15 +49,16 @@ class FirstLevel extends Component {
         return(
             <Container>
                 <Grid>
-                    <Row 
-                        size={60}
-                        style={{alignItems: 'center', justifyContent: 'center'}}>
+                    <Row style={{alignItems: 'center', justifyContent: 'center'}}>
                         <WinBtn 
                             onPress={() => this.handleWinBtnPress()}
                             isActive={ isWinBtnActive || isSolved }/>
+                      
                     </Row>
-                    <Row size={40} style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Button onPress={this.handleSwitcherPress} />
+                    <Row style={{alignItems: 'center', justifyContent: 'center'}}>
+                        <ToolTable>
+                            <Button onPress={this.handleSwitcherPress} />
+                        </ToolTable>
                     </Row>
                 </Grid>
             </Container>

@@ -4,6 +4,7 @@ import PanWrapper from '../PanWrapper';
 import { Image, View } from 'react-native';
 import styled from 'styled-components';
 import ImageSequence from '../ImageSequence';
+import { IMG_SCALE } from 'config/metrics';
 
 const legend = {
     happy: {
@@ -16,20 +17,17 @@ const legend = {
     }
 }
 
-const imgs = [require("assets/winBtn/happyUnpressed.png"), require("assets/winBtn/happyPressed.png"), require("assets/winBtn/sadUnpressed.png"), require("assets/winBtn/sadPressed.png")];
-let imgBounds = {
-    w: 407,
-    h: 414
-}
+const imgs = [
+    require("assets/winBtn/happyUnpressed.png"), 
+    require("assets/winBtn/happyPressed.png"), 
+    require("assets/winBtn/sadUnpressed.png"), 
+    require("assets/winBtn/sadPressed.png")];
 
-let heightWidthRatio = imgBounds.h / imgBounds.w; 
-let width = 100;
-let height = heightWidthRatio * width;
+const { width, height } = Image.resolveAssetSource(imgs[0]);
 
 const Wrapper = styled(View)`
-    height: ${height}px;
-    width: ${width}px;
-    background-color: transparent;
+    height: ${height * IMG_SCALE}px;
+    width: ${width * IMG_SCALE}px;
 `
 
 class WinBtn extends Component {
