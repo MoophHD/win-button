@@ -1,11 +1,18 @@
 import { AsyncStorage } from 'react-native';
+import MusicManager from 'assets/audio/MusicManager';
+import SoundManager from 'assets/audio/SoundManager';
+
 import { 
     ON_SOLVE,
     NEXT_LVL,
-    CLEAR
+    CLEAR,
+    SET_SOUND,
+    SET_MUSIC
 } from '../constants/game.constants';
 
 const initialState = {
+    isSoundActive: true,
+    isMusicActive: true,
     isAdFree: false,
     current: 0,
     ids: [0, 1],
@@ -20,8 +27,25 @@ const initialState = {
     }
 }
 
+let isActive;
+
 export default (state=initialState, action) => {
     switch(action.type) {
+       case SET_SOUND: {
+            isActive = action.isActive;
+            SoundManager.setActive(isActive)
+            console.log(`set Sound ${isActive}`);
+            setData("isSoundActive", isActive);
+            return {...state, isSoundActive: isActive }
+        }
+        case SET_MUSIC: {
+            isActive = action.isActive;
+            MusicManager.setActive(isActive);
+            
+            console.log(`set Music ${isActive}`);
+            setData("isMusicActive", isActive);
+            return {...state, isMusicActive: isActive }
+        }
         case CLEAR: {
             AsyncStorage.clear();
             let nextByid = {...state.byid};

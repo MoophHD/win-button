@@ -35,11 +35,17 @@ class Button extends Component {
         this.handlePress = this.handlePress.bind(this);
     }
     
+    shouldComponentUpdate(nextProps, nextState) {
+        const DIFFERENT_PRESSED = this.state.isPressed != nextState.isPressed;
+        
+        return DIFFERENT_PRESSED;
+    }
+    
     handlePress() {
+       
+        this.setPressed(true);
         SoundManager.play("btn").then(() => {
             if(this.props.onPress) this.props.onPress();
-            
-            this.setPressed(true);
         })
     }
     

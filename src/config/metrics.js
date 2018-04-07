@@ -14,5 +14,5 @@ const TARGET_CONTENT_WIDTH = 1291.25;
 
 const scale = DEVICE_WIDTH / TARGET_WIDTH;
 export const IMG_SCALE = scale;
-
+export const SCALE = scale;
 export const CONTENT_WIDTH = IMG_SCALE * TARGET_CONTENT_WIDTH;

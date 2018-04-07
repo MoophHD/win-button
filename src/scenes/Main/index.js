@@ -10,6 +10,9 @@ import PauseMenu from '../PauseMenu';
 import PauseBtn from './components/PauseBtn';
 import LvlTitle from './components/LvlTitle';
 import Background from '../../components/Background';
+import SoundManager from 'assets/audio/SoundManager';
+import MusicManager from 'assets/audio/MusicManager';
+
 
 import FirstLevel from '../FirstLevel';
 import AboutTime from '../AboutTime';
@@ -39,6 +42,8 @@ class Main extends Component {
     // AdMobInterstitial.addEventListener("interstitialDidLoad", () => console.log('ad loaded'));
     await AdMobInterstitial.requestAd();
     
+    MusicManager.play("main", true);
+    
     BackHandler.addEventListener('hardwareBackPress', () => {
       if (this.state.isPaused) {
         this.setPause(false)
@@ -53,9 +58,13 @@ class Main extends Component {
   handleSolve() {
     const { current, byid } = this.props;
     if (byid[current].solved ) return;
-    
     this._solvedFlag = true;
-    this.props.actions.onSolve(current);
+    
+    SoundManager.play("bell").then(() => {
+        console.log("bell played");
+        this.props.actions.onSolve(current);
+      }
+    )
   }
   
   async handleNextLvl() {

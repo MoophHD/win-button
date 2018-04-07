@@ -17,6 +17,9 @@ const Container = styled(View)`
     flex: 1;
     padding: 5px;
     padding-bottom: 15px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 `
 
 const Img = styled(Image)`

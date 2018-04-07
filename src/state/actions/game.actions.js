@@ -1,4 +1,4 @@
-import { ON_SOLVE, NEXT_LVL, CLEAR } from '../constants/game.constants';
+import { ON_SOLVE, NEXT_LVL, CLEAR, SET_MUSIC, SET_SOUND } from '../constants/game.constants';
 
 export function onSolve(id) {
     return {
@@ -19,3 +19,17 @@ export function clear() {
     }
 }
 
+export function setMusic(isActive) {
+    return {
+        type: SET_MUSIC,
+        isActive
+    }
+}
+
+
+export function setSound(isActive) {
+    return {
+        type: SET_SOUND,
+        isActive
+    }
+}

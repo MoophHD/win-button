@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { Text } from 'native-base';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import PropTypes from 'prop-types';
@@ -8,42 +8,36 @@ import PropTypes from 'prop-types';
 import WinBtn from '../../components/WinBtn';
 import MyText from '../../components/MyText';
 import Clock from '../../components/Clock';
-import { DEVICE_WIDTH } from 'config/metrics';
+import ToolTable from '../../components/ToolTable';
+import Note from '../../components/Note';
+import { CONTENT_WIDTH, SCALE } from 'config/metrics';
 
 const Container = styled.View`
-    flex-grow: 1;
-`
-const CodeContainer = styled.View`
-    display: flex;
-    align-items: center;
-    background-color: #F1F2F4;
     flex: 1;
-    border-radius: 10px;
-    box-shadow: 10px 10px 10px 
+    width: ${CONTENT_WIDTH}px;
+    margin: auto;
 `
 
-
-// shadowRadius: 5,
-
-// shadowOpacity: 1.0
-
-const BottomRow = styled(Row)`
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
+const WinBtnContainer = styled.View`
+    padding-top: 30px;
+    height: 100%;
 `
 
-const ClockContainer = styled(View)`
-    justify-content: center;
-    align-items: center;
+const clockImg = require("assets/clock/clock0.png");
+const { width } = Image.resolveAssetSource(clockImg);
+const clockPadding = 5; //supplied to clock directly
+const side = 2 * width * SCALE + clockPadding * 4;
+const ClockContainer = styled.View`
+    width: ${ side }px;
+    height: ${ side }px;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    background-color: #4EC2E7;
-    width: 80%;
-    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
 `
 
-const center= {justifyContent: 'center', alignItems: 'center'};
+const center = {justifyContent: 'center', alignItems: 'center'};
 const combination = 2011;
 const viewCombination = 9366;
 class AboutTime extends Component {
@@ -86,32 +80,36 @@ class AboutTime extends Component {
         return (
             <Container>
                 <Grid>
-                    <Row size={45} style={{padding: 10}}>
-                        <Col style={{justifyContent:'center', alignItems:'stretch'}}>
-                            <CodeContainer>
-                                <MyText size={95}>
+                    <Row style={{alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Note>
+                            <View style={{margin: 'auto'}}>
+                                <MyText bold size={75}>
                                     {viewCombination.toString().slice(0, 2)}
                                 </MyText>
-                                 <MyText size={95}>
+                                 <MyText bold size={75}>
                                     {viewCombination.toString().slice(2)}
                                 </MyText>
-                            </CodeContainer>
-                        </Col>
-                        <Col style={center}>
+                            </View>
+                        </Note>
+                        
+                        <WinBtnContainer>
                             <WinBtn isActive={this.state.isWin} />
-                        </Col>
+                        </WinBtnContainer>
                     </Row>
                     
-                    <BottomRow size={55} >
-                        <ClockContainer>
-                            {this.clockIds.map((id, i) => (
-                                <Clock 
-                                    key={`aboutTimeClock${i}`}
-                                    angle={clockById[id]}
-                                    onPress={this.handleClockPress.bind(this, id)}/>
-                            ))}
-                        </ClockContainer>
-                    </BottomRow>
+                    <Row>
+                        <ToolTable>
+                            <ClockContainer>
+                                {this.clockIds.map((id, i) => (
+                                    <Clock 
+                                        style={{padding: clockPadding}}
+                                        key={`aboutTimeClock${i}`}
+                                        angle={clockById[id]}
+                                        onPress={this.handleClockPress.bind(this, id)}/>
+                                ))}
+                            </ClockContainer>
+                        </ToolTable>
+                    </Row>
                 </Grid>
             </Container>
         )

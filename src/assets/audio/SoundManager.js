@@ -6,8 +6,6 @@ const sounds = {
   "switch": require("./src/switch.mp3")
 }
 const SoundManager = new AudioManager(sounds);
-// MusicManager.loadAudio().then(() => {console.log("loaded")});
 
-// export const loadSounds = () => SoundManager.loadAudio();
 export const loadSounds = () => { console.log("loading sound"); return SoundManager.loadAudio() };
 export default SoundManager;

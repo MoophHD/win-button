@@ -6,11 +6,11 @@ import { DEVICE_WIDTH } from 'config/metrics';
 
 class MyText extends PureComponent {
     render() {
-        const { size } = this.props;
+        const { size, bold } = this.props;
         const scaledSize = Math.round(size * DEVICE_WIDTH / 375);
         return(
             <Text
-                style={{fontFamily: 'Raleway', fontSize: scaledSize}}
+                style={{fontFamily: `${bold ? 'MyriadProBold' : 'MyriadPro' }`, fontSize: scaledSize}}
                 {...this.props} />
         )
     }

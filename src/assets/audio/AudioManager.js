@@ -36,7 +36,6 @@ class AudioManager {
         try {
           await sound.setPositionAsync(0);
           await sound.playAsync();
-          console.log("sound played");
           
           return new Promise((res, rej) => res());
         }
@@ -47,6 +46,14 @@ class AudioManager {
     
     setActive(isActive) {
         this._isActive = isActive;
+    }
+    
+    toggleVolume() {
+        this.setActive(!this._isActive);
+    }
+    
+    getActive() {
+        return this._isActive;
     }
 }
 

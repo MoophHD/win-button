@@ -6,7 +6,8 @@ import { KeepAwake, registerRootComponent } from 'expo';
 import { Font } from 'expo';
 import { View, AsyncStorage } from 'react-native';
 
-import SoundManager, { loadSounds } from 'assets/audio/SoundManager';
+import { loadSounds } from 'assets/audio/SoundManager';
+import { loadMusic } from 'assets/audio/MusicManager';
 
 if (__DEV__) {
   KeepAwake.activate();
@@ -15,6 +16,7 @@ if (__DEV__) {
 const initialState = {ids: [0,1,2]};
 
 let store = configureStore();
+let isSoundActive, isMusicActive;
 
 export default class AppEntry extends Component {
     constructor(props) {
@@ -29,13 +31,20 @@ export default class AppEntry extends Component {
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
       Raleway: require("assets/fonts/Raleway.ttf"),
-      MyriadProBold: require("assets/fonts/MyriadProBold.otf")
+      MyriadProBold: require("assets/fonts/MyriadProBold.otf"),
+      MyriadPro: require("assets/fonts/MyriadPro.ttf")
     });
     
     let solved, current;
     try {
         const storeSolved = await AsyncStorage.getItem('solved');
         const storeCurrent = await AsyncStorage.getItem('current');
+        isSoundActive = await AsyncStorage.getItem('isSoundActive');
+        isMusicActive = await AsyncStorage.getItem('isMusicActive');
+        
+        isSoundActive = isSoundActive ? JSON.parse(isSoundActive) : true;
+        isMusicActive = isMusicActive ? JSON.parse(isMusicActive) : true;
+        
         solved = storeSolved ? JSON.parse(storeSolved) : [];
         current = storeCurrent ? +storeCurrent : 0;
     } catch (error) {
@@ -43,20 +52,16 @@ export default class AppEntry extends Component {
         solved = [];
         current = 0;
     }
-        
-    // this.buildStore(current, solved)
-    //     .then(loadSounds)
-    //     .then(() => this.setState({ loaded: true }));
-        
-                
-    this.buildStore(current, solved)
+          
+    this.buildStore(current, solved, isSoundActive)
         .then(loadSounds)
+        .then(loadMusic)
         .then(() => { console.log("loaded everything"); this.setState(() => ({loaded: true})) });
   }
   
     buildStore(current, solved) {
       //
-        const IS_AD_FREE = true;
+        const IS_AD_FREE = __DEV__ ? true : false;
     //
     
     
@@ -70,6 +75,8 @@ export default class AppEntry extends Component {
         
         let state = {
           ...initialState,
+          isSoundActive,
+          isMusicActive,
           current,
           byid,
           isAdFree: IS_AD_FREE

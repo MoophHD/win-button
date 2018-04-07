@@ -5,7 +5,6 @@ import { View } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import WinBtn from '../../components/WinBtn';
 import Button from '../../components/Button';
-import Switch from '../../components/Switch';
 import ToolTable from '../../components/ToolTable';
 import Note from '../../components/Note';
 import { CONTENT_WIDTH } from 'config/metrics';

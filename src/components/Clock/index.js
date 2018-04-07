@@ -27,9 +27,9 @@ class Clock extends Component {
     }
     
     render() {
-        const { angle, onPress } = this.props;
+        const { angle, onPress, style } = this.props;
         return (
-            <Wrapper>
+            <Wrapper style={style}>
                 <TouchableWithoutFeedback onPress={onPress}>
                     <View style={{flex: 1}}>
                         <ImageSequence index={angle || 0} images={imgs}/>
