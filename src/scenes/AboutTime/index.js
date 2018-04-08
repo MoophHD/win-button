@@ -37,7 +37,6 @@ const ClockContainer = styled.View`
     justify-content: center;
 `
 
-const center = {justifyContent: 'center', alignItems: 'center'};
 const combination = 2011;
 const viewCombination = 9366;
 class AboutTime extends Component {
@@ -66,17 +65,20 @@ class AboutTime extends Component {
         
         this.setState(() => ({ clockById: newById }), () => {
              if (Object.values(newById).join("") == combination) {
-                this.onWin();
+                console.log(this);
+                this.handleSolve()
             }
         })
     }
     
-    onWin() {
+    handleSolve() {
+        this.props.onSolve();
         this.setState(() => ({ isWin: true }));
     }
     
     render() {
         const { clockById } = this.state;
+        const { nextLvl } = this.props;
         return (
             <Container>
                 <Grid>
@@ -93,7 +95,9 @@ class AboutTime extends Component {
                         </Note>
                         
                         <WinBtnContainer>
-                            <WinBtn isActive={this.state.isWin} />
+                            <WinBtn
+                                onPress={nextLvl}
+                                isActive={this.state.isWin} />
                         </WinBtnContainer>
                     </Row>
                     

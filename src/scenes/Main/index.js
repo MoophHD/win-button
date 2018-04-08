@@ -1,5 +1,5 @@
 import React, { Component, cloneElement } from 'react';
-import { View, BackHandler } from 'react-native';
+import { View, BackHandler, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -56,6 +56,7 @@ class Main extends Component {
   }
     
   handleSolve() {
+      console.log("handle solve");
     const { current, byid } = this.props;
     if (byid[current].solved ) return;
     this._solvedFlag = true;
@@ -99,6 +100,7 @@ class Main extends Component {
       );
     return (
       <Container>
+        <StatusBar hidden={true} />
         <Background />
         
         <LvlTitle name={name}/>

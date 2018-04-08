@@ -24,19 +24,22 @@ class AudioManager {
                 ({ sound }, i) => {
                     let key = keys[i];
                     this.sounds[key] = sound;
+                    sound.setVolumeAsync(0);
+                    sound.playAsync();
+                    sound.stopAsync();
+                    sound.setVolumeAsync(1);
                 }
             ));
     }
     
     async play(name) {
         if (!this._isActive) return;
-        
+        console.log(this.sounds);
         if (!this.sounds.hasOwnProperty(name)) throw `no song with name ${name} was found`;
         let sound = this.sounds[name];
         try {
           await sound.setPositionAsync(0);
           await sound.playAsync();
-          
           return new Promise((res, rej) => res());
         }
         catch (error) {

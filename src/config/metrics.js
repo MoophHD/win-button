@@ -13,6 +13,7 @@ const TARGET_WIDTH = 1440; //rn scales screen size by 0.5
 const TARGET_CONTENT_WIDTH = 1291.25;
 
 const scale = DEVICE_WIDTH / TARGET_WIDTH;
+console.log(`d_w ${DEVICE_WIDTH} d_h ${DEVICE_HEIGHT}`);
 export const IMG_SCALE = scale;
 export const SCALE = scale;
 export const CONTENT_WIDTH = IMG_SCALE * TARGET_CONTENT_WIDTH;

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Image, TouchableWithoutFeedback, View } from 'react-native';
 import { IMG_SCALE } from 'config/metrics';
 import ImageSequence from '../ImageSequence';
+import SoundManager from 'assets/audio/SoundManager';
 
 const imgs = [
     require("assets/clock/clock0.png"),
@@ -26,11 +27,18 @@ class Clock extends Component {
         return differentAngle;
     }
     
+    handlePress() {
+        this.props.onPress();
+        
+        console.log("clock press");
+        SoundManager.play("btn");
+    }
+    
     render() {
-        const { angle, onPress, style } = this.props;
+        const { angle, style } = this.props;
         return (
             <Wrapper style={style}>
-                <TouchableWithoutFeedback onPress={onPress}>
+                <TouchableWithoutFeedback onPress={() => this.handlePress()}>
                     <View style={{flex: 1}}>
                         <ImageSequence index={angle || 0} images={imgs}/>
                     </View>

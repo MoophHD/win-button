@@ -8,7 +8,7 @@ import { View, AsyncStorage } from 'react-native';
 
 import { loadSounds } from 'assets/audio/SoundManager';
 import { loadMusic } from 'assets/audio/MusicManager';
-
+console.log("!");
 if (__DEV__) {
   KeepAwake.activate();
 }
