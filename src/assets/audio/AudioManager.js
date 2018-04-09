@@ -34,7 +34,6 @@ class AudioManager {
     
     async play(name) {
         if (!this._isActive) return;
-        console.log(this.sounds);
         if (!this.sounds.hasOwnProperty(name)) throw `no song with name ${name} was found`;
         let sound = this.sounds[name];
         try {

@@ -8,12 +8,12 @@ import { View, AsyncStorage } from 'react-native';
 
 import { loadSounds } from 'assets/audio/SoundManager';
 import { loadMusic } from 'assets/audio/MusicManager';
-console.log("!");
+
 if (__DEV__) {
   KeepAwake.activate();
 }
 
-const initialState = {ids: [0,1,2]};
+const ids = [0,1,2];
 
 let store = configureStore();
 let isSoundActive, isMusicActive;
@@ -53,10 +53,15 @@ export default class AppEntry extends Component {
         current = 0;
     }
           
-    this.buildStore(current, solved, isSoundActive)
-        .then(loadSounds)
-        .then(loadMusic)
-        .then(() => { console.log("loaded everything"); this.setState(() => ({loaded: true})) });
+    // this.buildStore(current, solved, isSoundActive)
+    //     .then(loadSounds)
+    //     .then(loadMusic)
+    //     .then(() => { console.log("loaded everything"); this.setState(() => ({loaded: true})) });
+        
+        this.buildStore(current, solved);
+        loadSounds();
+        loadMusic();
+        this.setState(() => ({loaded: true}))
   }
   
     buildStore(current, solved) {
@@ -64,9 +69,8 @@ export default class AppEntry extends Component {
         const IS_AD_FREE = __DEV__ ? true : false;
     //
     
-    
         let byid = {};
-        initialState.ids.forEach((id) => {
+        ids.forEach((id) => {
           // if id is in solved array
           byid[id] = {
             solved: solved.indexOf(id) != -1
@@ -74,7 +78,7 @@ export default class AppEntry extends Component {
         })
         
         let state = {
-          ...initialState,
+          ids,
           isSoundActive,
           isMusicActive,
           current,
@@ -84,7 +88,6 @@ export default class AppEntry extends Component {
         
         store = configureStore(state);
         
-        console.log("loaded store");
         return new Promise((res, rej) => res());
     }
   

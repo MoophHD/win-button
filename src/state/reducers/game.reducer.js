@@ -15,7 +15,7 @@ const initialState = {
     isMusicActive: true,
     isAdFree: false,
     current: 0,
-    ids: [0, 1],
+    ids: [0, 1, 2],
     byid: {
         0: {
             solved: false,
@@ -34,7 +34,6 @@ export default (state=initialState, action) => {
        case SET_SOUND: {
             isActive = action.isActive;
             SoundManager.setActive(isActive)
-            console.log(`set Sound ${isActive}`);
             setData("isSoundActive", isActive);
             return {...state, isSoundActive: isActive }
         }
@@ -42,7 +41,6 @@ export default (state=initialState, action) => {
             isActive = action.isActive;
             MusicManager.setActive(isActive);
             
-            console.log(`set Music ${isActive}`);
             setData("isMusicActive", isActive);
             return {...state, isMusicActive: isActive }
         }

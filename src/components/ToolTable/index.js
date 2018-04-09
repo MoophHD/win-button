@@ -10,6 +10,7 @@ const { width, height } = Image.resolveAssetSource(img);
 const Wrapper = styled(View)`
     height: ${height * IMG_SCALE}px;
     width: ${width * IMG_SCALE}px;
+    
     position: relative;
 `
 
@@ -29,12 +30,17 @@ const Img = styled(Image)`
     width: 100%;
 `
 
+const centeringProps = {
+    alignItems: 'center',
+    justifyContent: 'center'
+}
+
 class ToolTable extends Component {
     render() {
-        const { children } = this.props;
+        const { children, center } = this.props;
         
         return(
-            <Wrapper {...this.props}>
+            <Wrapper style={center ? centeringProps : {}} {...this.props}>
                 <Img source={img} />
                 <Container>
                     {children}

@@ -16,6 +16,7 @@ import MusicManager from 'assets/audio/MusicManager';
 
 import FirstLevel from '../FirstLevel';
 import AboutTime from '../AboutTime';
+import PiNumber from '../PiNumber';
 
 let Container = styled.View`
   flex-grow: 1;
@@ -56,21 +57,29 @@ class Main extends Component {
   }
     
   handleSolve() {
-      console.log("handle solve");
     const { current, byid } = this.props;
     if (byid[current].solved ) return;
     this._solvedFlag = true;
     
     SoundManager.play("bell").then(() => {
-        console.log("bell played");
         this.props.actions.onSolve(current);
       }
     )
   }
   
   async handleNextLvl() {
+    
     if (!this._solvedFlag) return;
     this._solvedFlag = false;
+    
+    //if last lvl
+    const { current, ids } = this.props;
+    console.log(ids);
+    console.log(current);
+    if (current == ids[ids.length - 1]) {
+      console.log("ya won");
+      return;
+    }
     
     if (!this.props.isAdFree && AdMobInterstitial.isReady) {
       await AdMobInterstitial.showAd();
@@ -98,6 +107,7 @@ class Main extends Component {
           nextLvl: this.handleNextLvl
         }
       );
+      
     return (
       <Container>
         <StatusBar hidden={true} />
@@ -106,10 +116,10 @@ class Main extends Component {
         <LvlTitle name={name}/>
         {lvlToRender}
         <PauseBtn onPress={() => this.setPause(true)}/>
-        { isPaused && <PauseMenu
-          onBack={() => this.setPause(false)}
-          isClearAvailable={byid[ids[0]].solved} />
-        }
+          { isPaused && <PauseMenu
+            onBack={() => this.setPause(false)}
+            isClearAvailable={byid[ids[0]].solved || current != 0} />
+          }
       </Container>
     )
   }
@@ -142,5 +152,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const lvlLegend = {
   0: { component: <FirstLevel />, name: "1st one real quick" },
-  1: { component: <AboutTime />, name: "It's About Time" }
+  1: { component: <AboutTime />, name: "It's About Time" },
+  2: { component: <PiNumber />, name: "The numer" }
 } 

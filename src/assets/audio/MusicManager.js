@@ -40,7 +40,6 @@ class _MusicManager extends AudioManager {
     async setActive(isActive) {
         super.setActive(isActive);
         let playing = this._playingSound;
-        // console.log(this.sounds[playing]);
         if (isActive && playing) {
             //continue
             await this.sounds[playing].playAsync();

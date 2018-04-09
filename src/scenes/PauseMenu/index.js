@@ -73,8 +73,6 @@ class PauseMenu extends Component {
         const { isClearAvailable, actions, isSoundActive, isMusicActive } = this.props;
         const { setSound, setMusic } = actions;
         
-        console.log(`is sound ${isSoundActive}`);
-        console.log(`is music ${isMusicActive}`)
         return(
             <Wrapper>
                 <IconContainer>

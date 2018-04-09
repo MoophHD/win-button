@@ -27,6 +27,7 @@ const clockImg = require("assets/clock/clock0.png");
 const { width } = Image.resolveAssetSource(clockImg);
 const clockPadding = 5; //supplied to clock directly
 const side = 2 * width * SCALE + clockPadding * 4;
+
 const ClockContainer = styled.View`
     width: ${ side }px;
     height: ${ side }px;
@@ -65,7 +66,6 @@ class AboutTime extends Component {
         
         this.setState(() => ({ clockById: newById }), () => {
              if (Object.values(newById).join("") == combination) {
-                console.log(this);
                 this.handleSolve()
             }
         })
@@ -102,11 +102,11 @@ class AboutTime extends Component {
                     </Row>
                     
                     <Row>
-                        <ToolTable>
+                        <ToolTable center>
                             <ClockContainer>
                                 {this.clockIds.map((id, i) => (
                                     <Clock 
-                                        style={{padding: clockPadding}}
+                                        style={{margin: clockPadding}}
                                         key={`aboutTimeClock${i}`}
                                         angle={clockById[id]}
                                         onPress={this.handleClockPress.bind(this, id)}/>

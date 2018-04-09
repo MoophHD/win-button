@@ -29,8 +29,6 @@ class Clock extends Component {
     
     handlePress() {
         this.props.onPress();
-        
-        console.log("clock press");
         SoundManager.play("btn");
     }
     
