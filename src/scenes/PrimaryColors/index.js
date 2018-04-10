@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import WinBtn from '../../components/WinBtn';
 import Switch from '../../components/Switch';
 import ToolTable from '../../components/ToolTable';
 import Note from '../../components/Note';
 import { CONTENT_WIDTH } from 'config/metrics';
-import MyText from '../../components/MyText';
 
 const Container = styled.View`
     flex: 1;
@@ -25,55 +24,36 @@ const SwitchContainer = styled.View`
     display: flex;
     flex-direction: row;
 `
-const disabledSwitchObj = {
-    0: false,
-    1: false,
-    2: false,
-    3: false,
-    4: false
-}
 
-// 3 1 4
-const ORDER = '203';
-class PiNumber extends Component {
+const ClWheelWrapper = styled.View`
+    flex: 1;
+`
+
+const clWheelImg = require("assets/lvls/colorWheel.png");
+
+// 135
+const PATTERN = [0, 2, 4];
+class PrimaryColors extends Component {
     constructor(props) {
         super(props); 
         
-        this.switchIds = [0,1,2,3,4];
-        this.state = {
-            isSwitchPressed: {
-                0: false,
-                1: false,
-                2: false,
-                3: false,
-                4: false
-            }
-        }
-        
-        this.idleOrder = '';
+        this.switchIds = [0,1,2,3,4,5];
+        this.idle = [];
         
         this.handleSwitchPress = this.handleSwitchPress.bind(this);
     }
     
     handleSwitchPress(id) {
-        this.idleOrder += id;
+        let idle = this.idle;
         
-        let currentSwitchState = this.state.isSwitchPressed;
-        this.setState(() => ({isSwitchPressed: {...currentSwitchState, [id]: true}}));
+        if (idle.indexOf(id) == -1) {
+            idle.push(id);
+        } else {
+            idle.splice(idle.indexOf(id), 1);
+        }
+
         
-        setTimeout(() => {
-           if (ORDER.slice(0, this.idleOrder.length) != this.idleOrder) {
-                this.idleOrder = '';
-                
-                
-                this.setState(() => ({isSwitchPressed: disabledSwitchObj}));
-                
-                return;
-            }
-        }, 250)
-        
-     
-        if (this.idleOrder == ORDER) {
+        if (arraysEqual(idle, PATTERN)) {
             this.props.onSolve();
         }
     }
@@ -90,12 +70,13 @@ class PiNumber extends Component {
             <Container>
                 <Grid>
                     <Row style={{alignItems: 'center', justifyContent: 'space-between'}}>
-                        <Note>
-                            <View>             
-                                 <MyText bold size={75}>
-                                    π
-                                </MyText>
-                            </View>
+                        <Note>          
+                            <ClWheelWrapper>
+                                <Image 
+                                    resizeMode="contain"
+                                    source={clWheelImg}
+                                    style={{height: '100%', width: '100%', flex: 1}} />
+                            </ClWheelWrapper>
                         </Note>
                         <WinBtnContainer>
                             <WinBtn 
@@ -109,10 +90,8 @@ class PiNumber extends Component {
                             <SwitchContainer>
                                  {this.switchIds.map((id, i) => (
                                         <Switch 
-                                            strict
-                                            isPressed={this.state.isSwitchPressed[id]}
                                             style={{margin: 5}}
-                                            key={`piNumSwitch${i}`}
+                                            key={`prColorsSwitch${i}`}
                                             onPress={this.handleSwitchPress.bind(this, id)}/>
                                     ))}
                             </SwitchContainer>
@@ -124,10 +103,21 @@ class PiNumber extends Component {
     }
 }
 
-PiNumber.propTypes = {
+function arraysEqual(arr1, arr2) {
+    if(arr1.length !== arr2.length)
+        return false;
+    for(var i = arr1.length; i--;) {
+        if(arr1[i] !== arr2[i])
+            return false;
+    }
+
+    return true;
+}
+
+PrimaryColors.propTypes = {
     onSolve: PropTypes.func,
     isSolved: PropTypes.bool,
     nextLvl: PropTypes.func
 }
 
-export default PiNumber;
+export default PrimaryColors;

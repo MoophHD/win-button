@@ -26,17 +26,30 @@ const Wrapper = styled(View)`
 class Switch extends PureComponent {
     constructor(props) {
         super(props);
-
+        
+        this.state = {
+            isPressed: false
+        }
+        
         this.handlePress = this.handlePress.bind(this);
     }
     
     handlePress() {
         SoundManager.play("switch");
+        this.setState(() => ({ isPressed: !this.state.isPressed }));
         if (this.props.onPress) this.props.onPress();
     }
 
     render() {
-        let key = this.props.isPressed ? legend.pressed : legend.unpressed;
+        const { strict } = this.props;
+        
+        let key;
+        if (strict) {
+            key = this.props.isPressed ? legend.pressed : legend.unpressed;
+        } else {
+            key = this.state.isPressed ? legend.pressed : legend.unpressed;
+        }
+        
         return(
             <Wrapper style={this.props.style}>
                 <TouchableWithoutFeedback onPress={this.handlePress}>

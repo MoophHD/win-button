@@ -6,19 +6,19 @@ import { KeepAwake, registerRootComponent } from 'expo';
 import { Font } from 'expo';
 import { View, AsyncStorage } from 'react-native';
 
-import { loadSounds } from 'assets/audio/SoundManager';
-import { loadMusic } from 'assets/audio/MusicManager';
+import SoundManager, { loadSounds } from 'assets/audio/SoundManager';
+import MusicManager, { loadMusic } from 'assets/audio/MusicManager';
 
 if (__DEV__) {
   KeepAwake.activate();
 }
 
-const ids = [0,1,2];
+const ids = [0,1,2,3,4,5,6];
 
 let store = configureStore();
 let isSoundActive, isMusicActive;
 
-export default class AppEntry extends Component {
+class AppEntry extends Component {
     constructor(props) {
     super(props);
     this.state = { 
@@ -62,6 +62,9 @@ export default class AppEntry extends Component {
         loadSounds();
         loadMusic();
         this.setState(() => ({loaded: true}))
+        
+        SoundManager.setActive(false);
+        MusicManager.setActive(false);
   }
   
     buildStore(current, solved) {
@@ -102,10 +105,9 @@ export default class AppEntry extends Component {
         
       )
   }
-
-      
-    
 }
 
 
 registerRootComponent(AppEntry);
+
+export default AppEntry;

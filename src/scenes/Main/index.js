@@ -17,6 +17,10 @@ import MusicManager from 'assets/audio/MusicManager';
 import FirstLevel from '../FirstLevel';
 import AboutTime from '../AboutTime';
 import PiNumber from '../PiNumber';
+import PrimaryColors from '../PrimaryColors';
+import SecondaryColors from '../SecondaryColors';
+import OnsAndOffs from '../OnsAndOffs';
+import BlackAndWhite from '../BlackAndWhite';
 
 let Container = styled.View`
   flex-grow: 1;
@@ -74,8 +78,7 @@ class Main extends Component {
     
     //if last lvl
     const { current, ids } = this.props;
-    console.log(ids);
-    console.log(current);
+    console.log('ids', ids);
     if (current == ids[ids.length - 1]) {
       console.log("ya won");
       return;
@@ -153,5 +156,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(Main);
 const lvlLegend = {
   0: { component: <FirstLevel />, name: "1st one real quick" },
   1: { component: <AboutTime />, name: "It's About Time" },
-  2: { component: <PiNumber />, name: "The numer" }
+  2: { component: <PiNumber />, name: "The numer" },
+  3: { component: <PrimaryColors />, name: "Primary" },
+  4: { component: <SecondaryColors />, name: "Secondary" },
+  5: { component: <OnsAndOffs />, name: "Of Ons and Offs" },
+  6: { component: <BlackAndWhite />, name: "Black" }
 } 
