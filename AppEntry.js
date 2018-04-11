@@ -69,7 +69,7 @@ class AppEntry extends Component {
   
     buildStore(current, solved) {
       //
-        const IS_AD_FREE = __DEV__ ? true : false;
+        const IS_AD_FREE = __DEV__ ? false : false;
     //
     
         let byid = {};

@@ -4,12 +4,8 @@ import styled from 'styled-components';
 import { TouchableOpacity, Alert } from 'react-native';
 import { Octicons } from '@expo/vector-icons';
 
-const COLOR = '#fff';
+const COLOR = '#000222';
 const SensitiveWrapper = styled(TouchableOpacity)`
-    position: absolute;
-    padding: 5px;
-    top: 0;
-    right: 0;
     background-color: undefined;
 `
 
@@ -17,7 +13,7 @@ class PauseBtn extends PureComponent {
     render() {
         return(
             <SensitiveWrapper onPress={this.props.onPress}>
-                <Octicons name={"gear"} color={COLOR} size={50}/>
+                <Octicons name={"gear"} color={COLOR} size={42}/>
             </SensitiveWrapper>
         )
     }

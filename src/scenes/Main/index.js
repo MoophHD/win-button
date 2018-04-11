@@ -1,17 +1,18 @@
 import React, { Component, cloneElement } from 'react';
-import { View, BackHandler, StatusBar } from 'react-native';
+import { View, BackHandler, StatusBar, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as actions from 'state/actions/game.actions';
-import Expo, { AdMobInterstitial } from 'expo';
+import Expo, { AdMobInterstitial, AdMobRewarded } from 'expo';
 import PauseMenu from '../PauseMenu';
 import PauseBtn from './components/PauseBtn';
 import LvlTitle from './components/LvlTitle';
 import Background from '../../components/Background';
 import SoundManager from 'assets/audio/SoundManager';
 import MusicManager from 'assets/audio/MusicManager';
+import HelpBtn from './components/HelpBtn';
 
 
 import FirstLevel from '../FirstLevel';
@@ -22,9 +23,20 @@ import SecondaryColors from '../SecondaryColors';
 import OnsAndOffs from '../OnsAndOffs';
 import BlackAndWhite from '../BlackAndWhite';
 
-let Container = styled.View`
+const Container = styled.View`
   flex-grow: 1;
   position: relative;
+`
+
+const TopBar = styled.View`
+  height: 55px;
+  position: relative;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
 `
 
 class Main extends Component {
@@ -46,6 +58,11 @@ class Main extends Component {
     AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/1033173712'); // Test ID, Replace with your-admob-unit-id
     // AdMobInterstitial.addEventListener("interstitialDidLoad", () => console.log('ad loaded'));
     await AdMobInterstitial.requestAd();
+  
+    AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917'); // Test ID, Replace with your-admob-unit-id
+    AdMobRewarded.setTestDeviceID('EMULATOR');
+    await AdMobRewarded.requestAd();
+    AdMobRewarded.addEventListener("rewardedVideoDidRewardUser", () => this.showToolTip());
     
     MusicManager.play("main", true);
     
@@ -55,7 +72,17 @@ class Main extends Component {
       }
     });
   }
-  
+
+  async onHelpPress() {
+    // AdMobRewarded.requestAd(() => AdMobRewarded.showAd());
+    await AdMobRewarded.showAd()
+    await AdMobRewarded.requestAd();
+  }
+    
+  showToolTip() {
+    console.log("robit");
+  }
+    
   setPause(isPause) {
    this.setState(() => ({isPaused: isPause}));
   }
@@ -72,20 +99,18 @@ class Main extends Component {
   }
   
   async handleNextLvl() {
-    
-    if (!this._solvedFlag) return;
+    const { current, ids, byid } = this.props;
+    if (!this._solvedFlag && !byid[current].solved) return;
     this._solvedFlag = false;
     
-    //if last lvl
-    const { current, ids } = this.props;
-    console.log('ids', ids);
     if (current == ids[ids.length - 1]) {
       console.log("ya won");
       return;
     }
     
     if (!this.props.isAdFree && AdMobInterstitial.isReady) {
-      await AdMobInterstitial.showAd();
+        await AdMobInterstitial.showAd();
+        await AdMobInterstitial.requestAd();
     }
     
     this.props.actions.nextLvl();
@@ -97,6 +122,8 @@ class Main extends Component {
     const differentPauseState = this.state.isPaused != nextState.isPaused;
     return differentCurrent || differentByid || differentPauseState;
   }
+  
+
 
   render() {
     const { current, byid, ids } = this.props;
@@ -116,9 +143,14 @@ class Main extends Component {
         <StatusBar hidden={true} />
         <Background />
         
-        <LvlTitle name={name}/>
+        <TopBar>
+          <HelpBtn  onPress={() => this.onHelpPress()}/>
+          <LvlTitle name={name}/>
+          <PauseBtn onPress={() => this.setPause(true)}/>
+        </TopBar>
+       
         {lvlToRender}
-        <PauseBtn onPress={() => this.setPause(true)}/>
+        
           { isPaused && <PauseMenu
             onBack={() => this.setPause(false)}
             isClearAvailable={byid[ids[0]].solved || current != 0} />
@@ -154,9 +186,9 @@ Main.propTypes = {
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const lvlLegend = {
-  0: { component: <FirstLevel />, name: "1st one real quick" },
+  0: { component: <FirstLevel />, name: "1st real quick", tooltip: "seriously", solution: "seriously?" },
   1: { component: <AboutTime />, name: "It's About Time" },
-  2: { component: <PiNumber />, name: "The numer" },
+  2: { component: <PiNumber />, name: "The number" },
   3: { component: <PrimaryColors />, name: "Primary" },
   4: { component: <SecondaryColors />, name: "Secondary" },
   5: { component: <OnsAndOffs />, name: "Of Ons and Offs" },

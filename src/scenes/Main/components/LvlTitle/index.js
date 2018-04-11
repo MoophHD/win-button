@@ -6,8 +6,6 @@ import { View } from 'react-native';
 import scaleFont from 'assets/gist/scaleFont';
 
 const Container = styled(View)`
-    padding: 25px 0;
-    width: 100%;
 `
 
 const ideal_size = 36;
