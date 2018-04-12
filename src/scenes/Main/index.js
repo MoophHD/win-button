@@ -13,7 +13,7 @@ import Background from '../../components/Background';
 import SoundManager from 'assets/audio/SoundManager';
 import MusicManager from 'assets/audio/MusicManager';
 import HelpBtn from './components/HelpBtn';
-
+import Hint from './components/Hint';
 
 import FirstLevel from '../FirstLevel';
 import AboutTime from '../AboutTime';
@@ -44,7 +44,9 @@ class Main extends Component {
     super(props);
     
     this.state = {
-      isPaused: false
+      isPaused: false,
+      isHintVisible: true,
+      isHintRewarded: false
     }
     
     this._solvedFlag = false;
@@ -117,6 +119,7 @@ class Main extends Component {
   }
   
   shouldComponentUpdate(nextProps, nextState){
+    console.log("should update");
     const differentCurrent = this.props.current != nextProps.current;
     const differentByid = this.props.byid != nextProps.byid;
     const differentPauseState = this.state.isPaused != nextState.isPaused;
@@ -127,8 +130,9 @@ class Main extends Component {
 
   render() {
     const { current, byid, ids } = this.props;
-    const { isPaused } = this.state;
-    const { component, name } = lvlLegend[current];
+    const { isPaused, isHintRewarded, isHintVisible } = this.state;
+    const { component, name, hint, solution } = lvlLegend[current];
+    console.log("2");
     let lvlToRender = cloneElement(
         component, 
         { ...this.lvlProps, 
@@ -137,7 +141,6 @@ class Main extends Component {
           nextLvl: this.handleNextLvl
         }
       );
-      
     return (
       <Container>
         <StatusBar hidden={true} />
@@ -155,6 +158,12 @@ class Main extends Component {
             onBack={() => this.setPause(false)}
             isClearAvailable={byid[ids[0]].solved || current != 0} />
           }
+          
+          { isHintVisible && 
+            <Hint
+              hint={hint}
+              solution={solution}
+              isRewarded={isHintRewarded} /> }
       </Container>
     )
   }
@@ -186,7 +195,7 @@ Main.propTypes = {
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const lvlLegend = {
-  0: { component: <FirstLevel />, name: "1st real quick", tooltip: "seriously", solution: "seriously?" },
+  0: { component: <FirstLevel />, name: "1st real quick", hint: "tap the button when it's green", solution: "you can use both your fingers" },
   1: { component: <AboutTime />, name: "It's About Time" },
   2: { component: <PiNumber />, name: "The number" },
   3: { component: <PrimaryColors />, name: "Primary" },
