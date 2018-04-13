@@ -5,7 +5,6 @@ import App from './src/App';
 import { KeepAwake, registerRootComponent } from 'expo';
 import { Font } from 'expo';
 import { View, AsyncStorage } from 'react-native';
-
 import SoundManager, { loadSounds } from 'assets/audio/SoundManager';
 import MusicManager, { loadMusic } from 'assets/audio/MusicManager';
 
@@ -13,11 +12,9 @@ if (__DEV__) {
   KeepAwake.activate();
 }
 
-const ids = [0,1,2,3,4,5,6];
-
 let store = configureStore();
 let isSoundActive, isMusicActive;
-
+const ids = [0,1,2,3,4,5,6];
 class AppEntry extends Component {
     constructor(props) {
     super(props);

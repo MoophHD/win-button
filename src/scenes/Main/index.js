@@ -45,8 +45,7 @@ class Main extends Component {
     
     this.state = {
       isPaused: false,
-      isHintVisible: true,
-      isHintRewarded: false
+      isHintVisible: false
     }
     
     this._solvedFlag = false;
@@ -64,25 +63,16 @@ class Main extends Component {
     AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/5224354917'); // Test ID, Replace with your-admob-unit-id
     AdMobRewarded.setTestDeviceID('EMULATOR');
     await AdMobRewarded.requestAd();
-    AdMobRewarded.addEventListener("rewardedVideoDidRewardUser", () => this.showToolTip());
     
     MusicManager.play("main", true);
     
     BackHandler.addEventListener('hardwareBackPress', () => {
       if (this.state.isPaused) {
         this.setPause(false)
+      } else if (this.state.isHintVisible) {
+        this.setState(() => ({isHintVisible: false}))
       }
     });
-  }
-
-  async onHelpPress() {
-    // AdMobRewarded.requestAd(() => AdMobRewarded.showAd());
-    await AdMobRewarded.showAd()
-    await AdMobRewarded.requestAd();
-  }
-    
-  showToolTip() {
-    console.log("robit");
   }
     
   setPause(isPause) {
@@ -119,20 +109,18 @@ class Main extends Component {
   }
   
   shouldComponentUpdate(nextProps, nextState){
-    console.log("should update");
     const differentCurrent = this.props.current != nextProps.current;
     const differentByid = this.props.byid != nextProps.byid;
     const differentPauseState = this.state.isPaused != nextState.isPaused;
-    return differentCurrent || differentByid || differentPauseState;
+    const toggledHint = this.state.isHintVisible != nextState.isHintVisible;
+    
+    return differentCurrent || differentByid || differentPauseState || toggledHint;
   }
-  
-
 
   render() {
     const { current, byid, ids } = this.props;
-    const { isPaused, isHintRewarded, isHintVisible } = this.state;
+    const { isPaused, isHintVisible } = this.state;
     const { component, name, hint, solution } = lvlLegend[current];
-    console.log("2");
     let lvlToRender = cloneElement(
         component, 
         { ...this.lvlProps, 
@@ -147,7 +135,7 @@ class Main extends Component {
         <Background />
         
         <TopBar>
-          <HelpBtn  onPress={() => this.onHelpPress()}/>
+          <HelpBtn  onPress={() => this.setState(() => ({isHintVisible: true}))}/>
           <LvlTitle name={name}/>
           <PauseBtn onPress={() => this.setPause(true)}/>
         </TopBar>
@@ -161,9 +149,9 @@ class Main extends Component {
           
           { isHintVisible && 
             <Hint
+              onClose={() => this.setState(() => ({isHintVisible: false}))}
               hint={hint}
-              solution={solution}
-              isRewarded={isHintRewarded} /> }
+              solution={solution}/> }
       </Container>
     )
   }
