@@ -31,7 +31,8 @@ const Btn = styled(Button)`
 `
 
 const IconContainer = styled(View)`
-    flex: 2;
+    flex: 1;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -39,8 +40,8 @@ const IconContainer = styled(View)`
 `
 
 const IconWrapper = styled(View)`
-    height: 125px;
-    width: 125px;
+    height: 115px;
+    width: 115px;
     background-color: ${props => props.active ? activeCl : inactiveCl};
     display: flex;
     justify-content: center;
@@ -80,7 +81,7 @@ class PauseMenu extends Component {
                        <IconWrapper
                             active={isMusicActive}>
                             <Ionicons
-                                size={100}
+                                size={85}
                                 name={"md-musical-notes"} 
                                 color={'#fff'} />
                         </IconWrapper>
@@ -90,7 +91,7 @@ class PauseMenu extends Component {
                         <IconWrapper
                             active={isSoundActive} >
                              <Entypo 
-                                size={100}
+                                size={85}
                                 name={"sound"} 
                                 color={'#fff'} />
                         </IconWrapper>

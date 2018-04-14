@@ -41,11 +41,10 @@ const ClockContainer = styled.View`
 
 const NoteImg = styled.View`
     flex: 1;
-    
     padding: 25px 0;
 `
 
-const noteImg = require("assets/lvls/onsAndOffs.png");
+const noteImg = require("assets/lvls/blackAndWhite.png");
 
 const combination = 2310;
 class BlackAndWhite extends Component {

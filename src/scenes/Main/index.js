@@ -22,6 +22,7 @@ import PrimaryColors from '../PrimaryColors';
 import SecondaryColors from '../SecondaryColors';
 import OnsAndOffs from '../OnsAndOffs';
 import BlackAndWhite from '../BlackAndWhite';
+import Arrows from '../Arrows';
 
 const Container = styled.View`
   flex-grow: 1;
@@ -184,10 +185,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const lvlLegend = {
   0: { component: <FirstLevel />, name: "1st real quick", hint: "tap the button when it's green", solution: "you can use both your fingers" },
-  1: { component: <AboutTime />, name: "It's About Time" },
-  2: { component: <PiNumber />, name: "The number" },
-  3: { component: <PrimaryColors />, name: "Primary" },
-  4: { component: <SecondaryColors />, name: "Secondary" },
-  5: { component: <OnsAndOffs />, name: "Of Ons and Offs" },
-  6: { component: <BlackAndWhite />, name: "Black" }
+  1: { component: <AboutTime />, name: "It's About Time", hint: "circles represent clocks", solution: "< > v v"},
+  2: { component: <PiNumber />, name: "The number", hint: "pi number", solution: "3 1 4"},
+  3: { component: <PrimaryColors />, name: "Primary", hint: "You need to pick primary colors", solution: "yellow, blue, red" },
+  4: { component: <SecondaryColors />, name: "Secondary", hint: "You need to pick secondary colors", solution:"purple, green, orange" },
+  5: { component: <OnsAndOffs />, name: "Of Ons and Offs", hint: " 'I' stands for on, 'O' stands for off", solution: "1 3 5" },
+  6: { component: <BlackAndWhite />, name: "Black", hint: "switch's hand should point in the corresponding circle's black side", solution: "< ^ v >"},
+  7: { component: <Arrows />, name: "Top down", hint: "left arrow - left button, right arrow - right button", solution: "l r r l r r l r"}
 } 

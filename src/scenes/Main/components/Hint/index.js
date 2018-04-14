@@ -46,6 +46,7 @@ const Content = styled(View)`
 `
 
 const BtnContainer = styled(View)`
+    width: 100%;
     height: 50px;
     display: flex;
     align-items: stretch;
@@ -80,7 +81,9 @@ class Hint extends Component {
     }
     
     reward() {
-        console.log("Reward");
+        console.log("hint reward");
+        if (this.state.isRewarded) return;
+        
         this.setState(() => ({isRewarded: true}));
     }
     
@@ -92,7 +95,7 @@ class Hint extends Component {
     
     handleWatchAd() {
         this.showRewardedAd();
-        this.setState(() => ({isLoading: true}));
+        if (!this.state.isLoading) this.setState(() => ({isLoading: true}));
     }
     
     render() {
@@ -115,17 +118,17 @@ class Hint extends Component {
                             
                             <BtnContainer>
                                 <Btn onPress={() => this.setState(() => ({isHint: true}))}>
-                                        <MyText>
-                                            hint
-                                        </MyText>
+                                    <MyText>
+                                        hint
+                                    </MyText>
                                 </Btn>
                                 
                                 <View style={{height: '100%', width: 1, backgroundColor: 'grey'}}/>
                                 
                                 <Btn onPress={() => this.setState(() => ({isHint: false}))}>
-                                        <MyText>
-                                            solution
-                                        </MyText>
+                                    <MyText>
+                                        solution
+                                    </MyText>
                                 </Btn>
                             </BtnContainer>
                         </RewardedContainer>
