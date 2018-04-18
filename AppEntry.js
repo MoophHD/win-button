@@ -14,7 +14,7 @@ if (__DEV__) {
 
 let store = configureStore();
 let isSoundActive, isMusicActive;
-const ids = [0,1,2,3,4,5,6,7];
+const ids = [0,1,2,3,4,5,6,7,8];
 class AppEntry extends Component {
     constructor(props) {
     super(props);

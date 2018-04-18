@@ -4,7 +4,7 @@ import { Image, TouchableWithoutFeedback, View } from 'react-native';
 import styled from 'styled-components';
 import ImageSequence from '../ImageSequence';
 import SoundManager from 'assets/audio/SoundManager';
-import { IMG_SCALE } from 'config/metrics';
+import { CTRL_IMG_SCALE } from 'config/metrics';
 
 const legend = {
     pressed: 0,
@@ -18,8 +18,8 @@ const imgs = [
 
 const { width, height } = Image.resolveAssetSource(imgs[0]);
 const Wrapper = styled(View)`
-    height: ${height * IMG_SCALE}px;
-    width: ${width * IMG_SCALE}px;
+    height: ${height * CTRL_IMG_SCALE}px;
+    width: ${width * CTRL_IMG_SCALE}px;
     position: relative;
 `
 

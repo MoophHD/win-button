@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { View, Image } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import WinBtn from '../../components/WinBtn';
-import Switch from '../../components/Switch';
+import SwitchBtn from '../../components/Switch/SwitchBtn';
 import ToolTable from '../../components/ToolTable';
 import Note from '../../components/Note';
 import { CONTENT_WIDTH } from 'config/metrics';
@@ -34,23 +34,27 @@ const NoteImg = styled.View`
 const noteImg = require("assets/lvls/arrows.png");
 
 // 135
-const PATTERN = [0, 2, 4];
+const PATTERN = '01101101';
 class Arrows extends Component {
     constructor(props) {
         super(props); 
-        
-        this.switchIds = [0,1,2,3,4,5];
-        this.idle = [];
-        
-        this.state = {
-            left: false,
-            right: false
-        }
-        
+        // 0 - left, 1 - right
+        this.idle = '';
         this.handleSwitchPress = this.handleSwitchPress.bind(this);
     }
     
-    handleSwitchPress(isLeft) {
+    handleSwitchPress(id) {
+        console.log(id);
+        this.idle += id;
+        let idle = this.idle;
+        
+        if (PATTERN.slice(0, idle.length) != idle) {
+            this.idle = '';
+        }
+        
+        if (PATTERN == idle) {
+            this.props.onSolve();
+        }
     }
     
     handleWinBtnPress() {
@@ -83,16 +87,12 @@ class Arrows extends Component {
                     <Row style={{alignItems: 'center', justifyContent: 'center'}}>
                         <ToolTable>
                             <SwitchContainer>
-                                    <Switch 
-                                        strict
-                                        isPressed={this.state.left}
-                                        style={{margin: 5}}
-                                        onPress={this.handleSwitchPress.bind(this, true)}/>
-                                     <Switch 
-                                        strict
-                                        isPressed={this.state.right}
-                                        style={{margin: 5}}
-                                        onPress={this.handleSwitchPress.bind(this, false)}/>
+                                    <SwitchBtn 
+                                        style={{margin: 10}}
+                                        onPress={this.handleSwitchPress.bind(this, 0)}/>
+                                     <SwitchBtn 
+                                        style={{margin: 10}}
+                                        onPress={this.handleSwitchPress.bind(this, 1)}/>
                             </SwitchContainer>
                         </ToolTable>
                     </Row>
@@ -120,3 +120,4 @@ Arrows.propTypes = {
 }
 
 export default Arrows;
+

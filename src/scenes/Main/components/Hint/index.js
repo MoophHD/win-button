@@ -111,7 +111,7 @@ class Hint extends Component {
                     { isRewarded ? 
                         <RewardedContainer>
                             <Content>
-                                <MyText size={26}>
+                                <MyText style={{margin: 'auto'}} size={26}>
                                     { this.state.isHint ? hint : solution }
                                 </MyText>
                             </Content>

@@ -10,7 +10,7 @@ import MyText from '../../components/MyText';
 import Clock from '../../components/Clock';
 import ToolTable from '../../components/ToolTable';
 import Note from '../../components/Note';
-import { CONTENT_WIDTH, SCALE } from 'config/metrics';
+import { CONTENT_WIDTH, CTRL_IMG_SCALE } from 'config/metrics';
 
 const Container = styled.View`
     flex: 1;
@@ -26,7 +26,7 @@ const WinBtnContainer = styled.View`
 const clockImg = require("assets/clock/clock0.png");
 const { width } = Image.resolveAssetSource(clockImg);
 const clockPadding = 5; //supplied to clock directly
-const side = 2 * width * SCALE + clockPadding * 4;
+const side = 2 * width * CTRL_IMG_SCALE + clockPadding * 4;
 
 const ClockContainer = styled.View`
     width: ${ side }px;

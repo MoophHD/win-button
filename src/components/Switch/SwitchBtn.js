@@ -13,8 +13,8 @@ const legend = {
 }
 
 const imgs = [
-    require("assets/btn/pressed.png"),
-    require("assets/btn/unpressed.png")
+    require("assets/switch/pressed.png"),
+    require("assets/switch/unpressed.png")
 ]
 
 
@@ -58,7 +58,7 @@ class Button extends Component {
     render() {
         let key = this.state.isPressed ? legend.pressed : legend.unpressed;
         return(
-            <Wrapper>
+            <Wrapper style={{...this.props.style}}>
                <PanWrapper style={{position: 'absolute'}} onTap={this.handlePress} onRelease={() => this.setPressed(false)}>
                     <ImageSequence index={key} images={imgs}/>
                 </PanWrapper>
