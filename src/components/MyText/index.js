@@ -10,8 +10,9 @@ class MyText extends PureComponent {
         const scaledSize = Math.round(size * DEVICE_WIDTH / 375);
         return(
             <Text
-                style={{fontFamily: `${bold ? 'MyriadProBold' : 'MyriadPro' }`, fontSize: scaledSize}}
-                {...this.props} />
+                {...this.props} 
+                style={{fontFamily: `${bold ? 'MyriadProBold' : 'MyriadPro' }`, fontSize: scaledSize, ...this.props.style}}
+                />
         )
     }
 }

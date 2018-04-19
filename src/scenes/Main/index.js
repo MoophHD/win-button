@@ -24,6 +24,9 @@ import OnsAndOffs from '../OnsAndOffs';
 import BlackAndWhite from '../BlackAndWhite';
 import Arrows from '../Arrows';
 import Blinking from '../Blinking';
+import OddRule from '../OddRule';
+import Order from '../Order';
+import News from '../News';
 
 const Container = styled.View`
   flex-grow: 1;
@@ -202,7 +205,10 @@ const lvlLegend = {
   5: { component: <OnsAndOffs />, name: "Of Ons and Offs", hint: " 'I' stands for on, 'O' stands for off", solution: "1 3 5" },
   6: { component: <BlackAndWhite />, name: "Black", hint: "switch's hand should point in the corresponding circle's black side", solution: "< ^ v >"},
   7: { component: <PrimaryColors />, name: "Primary", hint: "You need to pick primary colors", solution: "yellow, blue, red" },
-  8: { component: <Blinking />, name: "", hint: "Follow the sequence", solution: "2nd, 3rd, 1st, 2nd, 3rd" }
+  8: { component: <Blinking />, name: "", hint: "Follow the sequence", solution: "2nd, 3rd, 1st, 2nd, 3rd" },
+  9: { component: <OddRule />, name: "", hint: "Odd numbers rule", solution: "1 3 5" },
+  10: { component: <Order />, name: "", hint: "Only one sequence will work", solution: "2 3 1" },
+  11: { component: <News />, name: "", hint: "North is given. Find the others", solution: "2 3 1" }
 } 
 
 function sleep(ms) {
