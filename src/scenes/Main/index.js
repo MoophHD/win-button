@@ -27,6 +27,9 @@ import Blinking from '../Blinking';
 import OddRule from '../OddRule';
 import Order from '../Order';
 import News from '../News';
+import LooseConnection from '../LooseConnection';
+import FallAndRise from '../FallAndRise';
+import TimingIsCrucial from '../TimingIsCrucial';
 
 const Container = styled.View`
   flex-grow: 1;
@@ -208,7 +211,10 @@ const lvlLegend = {
   8: { component: <Blinking />, name: "", hint: "Follow the sequence", solution: "2nd, 3rd, 1st, 2nd, 3rd" },
   9: { component: <OddRule />, name: "", hint: "Odd numbers rule", solution: "1 3 5" },
   10: { component: <Order />, name: "", hint: "Only one sequence will work", solution: "2 3 1" },
-  11: { component: <News />, name: "", hint: "North is given. Find the others", solution: "2 3 1" }
+  11: { component: <News />, name: "", hint: "North is given. Find the others", solution: "2 3 1" },
+  12: { component: <LooseConnection />, name: "", hint: "Is there a loose connection?", solution: "1 3 5 6 4 2" },
+  13: { component: <FallAndRise />, name: "", hint: "Fall and Rise", solution: "5 3 1 2 4 6" },
+  0: { component: <TimingIsCrucial />, name: "", hint: "Timing is crucial", solution: "2 4 3 1 5" },
 } 
 
 function sleep(ms) {

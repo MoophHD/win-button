@@ -25,23 +25,27 @@ const SwitchContainer = styled.View`
     flex-direction: row;
 `
 const disabledSwitchObj = {
-    0: false,
     1: false,
-    2: false
+    2: false,
+    3: false,
+    4: false,
+    5: false
 }
 
 // 3 1 4
-const ORDER = '120';
-class Order extends Component {
+const ORDER = '24315';
+class TimingIsCrusial extends Component {
     constructor(props) {
         super(props); 
         
-        this.switchIds = [0,1,2];
+        this.switchIds = [1,2,3,4,5];
         this.state = {
             isSwitchPressed: {
-                0: false,
                 1: false,
-                2: false
+                2: false,
+                3: false,
+                4: false,
+                5: false
             }
         }
         
@@ -65,7 +69,7 @@ class Order extends Component {
                 
                 return;
             }
-        }, 250)
+        }, 175)
         
      
         if (this.idleOrder == ORDER) {
@@ -100,7 +104,7 @@ class Order extends Component {
                                             strict
                                             isPressed={this.state.isSwitchPressed[id]}
                                             style={{margin: 7.5}}
-                                            key={`orderSwitch${i}`}
+                                            key={`tmIsCrucial${i}`}
                                             onPress={this.handleSwitchPress.bind(this, id)}/>
                                     ))}
                             </SwitchContainer>
@@ -112,10 +116,10 @@ class Order extends Component {
     }
 }
 
-Order.propTypes = {
+TimingIsCrusial.propTypes = {
     onSolve: PropTypes.func,
     isSolved: PropTypes.bool,
     nextLvl: PropTypes.func
 }
 
-export default Order;
+export default TimingIsCrusial;
