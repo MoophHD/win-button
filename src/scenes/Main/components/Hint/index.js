@@ -81,10 +81,10 @@ class Hint extends Component {
     }
     
     reward() {
-        console.log("hint reward");
         if (this.state.isRewarded) return;
         
         this.setState(() => ({isRewarded: true}));
+        this.props.onShow();
     }
     
   async showRewardedAd() {
@@ -99,7 +99,7 @@ class Hint extends Component {
     }
     
     render() {
-        const { solution, hint, onClose } = this.props;
+        const { solution, hint, onClose, wasShown } = this.props;
         const { isRewarded, isLoading } = this.state;
         
         return(
@@ -108,7 +108,7 @@ class Hint extends Component {
                 <TriggerBg />
             </TouchableWithoutFeedback>
                 <Container>
-                    { isRewarded ? 
+                    { isRewarded || wasShown ? 
                         <RewardedContainer>
                             <Content>
                                 <MyText style={{margin: 'auto'}} size={26}>
@@ -171,7 +171,9 @@ class Hint extends Component {
 Hint.propTypes = {
     hint: PropTypes.string,
     solution: PropTypes.string,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    onShow: PropTypes.func,
+    wasShown: PropTypes.bool
 }
 
 export default Hint;

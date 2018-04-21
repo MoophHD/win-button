@@ -30,6 +30,7 @@ import News from '../News';
 import LooseConnection from '../LooseConnection';
 import FallAndRise from '../FallAndRise';
 import TimingIsCrucial from '../TimingIsCrucial';
+import OneStepAhead from '../OneStepAhead';
 
 const Container = styled.View`
   flex-grow: 1;
@@ -53,14 +54,17 @@ class Main extends Component {
     
     this.state = {
       isPaused: false,
-      isHintVisible: false
+      isHintVisible: false,
+      restarting: false
     }
     
     this._solvedFlag = false;
+    this._showedHint = false;
     
     this.handleSolve = this.handleSolve.bind(this);
     this.handleNextLvl = this.handleNextLvl.bind(this);
     this.setPause = this.setPause.bind(this);
+    this.restart = this.restart.bind(this);
   }
   
   async componentWillMount() {
@@ -108,7 +112,7 @@ class Main extends Component {
     if (!this._solvedFlag && !byid[current].solved) return;
     
     this._solvedFlag = false;
-    
+    this._showedHint = false;
     await sleep(250);
     
     if (current == ids[ids.length - 1]) {
@@ -125,19 +129,37 @@ class Main extends Component {
 
   }
   
+  restart() {
+    this.setState(() => ({ restarting: true }));
+    this.props.actions.onRestart();
+    
+    setTimeout(() => { this.setPause(false)}, 0);
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.restarting) {
+      this.setState(() => ({ restarting: false }));
+    }
+  }
+  
+  
   shouldComponentUpdate(nextProps, nextState){
+    const differentRestart = this.state.restarting != nextState.restarting;
     const differentCurrent = this.props.current != nextProps.current;
     const differentByid = this.props.byid != nextProps.byid;
     const differentPauseState = this.state.isPaused != nextState.isPaused;
     const toggledHint = this.state.isHintVisible != nextState.isHintVisible;
     
-    return differentCurrent || differentByid || differentPauseState || toggledHint;
+    return differentCurrent || differentByid || differentPauseState || toggledHint || differentRestart;
   }
 
   render() {
     const { current, byid, ids } = this.props;
-    const { isPaused, isHintVisible } = this.state;
-    const { component, name, hint, solution } = lvlLegend[current];
+    const { isPaused, isHintVisible, restarting } = this.state;
+    let { component, name, hint, solution } = lvlLegend[current];
+    //odd
+    if (restarting) component = <View />;
+    
     let lvlToRender = cloneElement(
         component, 
         { ...this.lvlProps, 
@@ -160,12 +182,15 @@ class Main extends Component {
         {lvlToRender}
         
           { isPaused && <PauseMenu
+            onRestart={() => {this.restart()}}
             onBack={() => this.setPause(false)}
             isClearAvailable={byid[ids[0]].solved || current != 0} />
           }
           
           { isHintVisible && 
             <Hint
+              wasShown={this._showedHint}
+              onShow={() => {this._showedHint = true}}
               onClose={() => this.setState(() => ({isHintVisible: false}))}
               hint={hint}
               solution={solution}/> }
@@ -200,7 +225,7 @@ Main.propTypes = {
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const lvlLegend = {
-  99: { component: <FirstLevel />, name: "1st real quick", hint: "tap the button when it's green", solution: "you can use both your fingers" },
+  0: { component: <FirstLevel />, name: "1st real quick", hint: "tap the button when it's green", solution: "you can use both your fingers" },
   1: { component: <AboutTime />, name: "It's About Time", hint: "circles represent clocks", solution: "< > v v"},
   2: { component: <PiNumber />, name: "The number", hint: "pi number", solution: "3 1 4"},
   3: { component: <Arrows />, name: "Top down", hint: "left arrow - left button, right arrow - right button", solution: "l r r l r r l r"},
@@ -214,7 +239,8 @@ const lvlLegend = {
   11: { component: <News />, name: "", hint: "North is given. Find the others", solution: "2 3 1" },
   12: { component: <LooseConnection />, name: "", hint: "Is there a loose connection?", solution: "1 3 5 6 4 2" },
   13: { component: <FallAndRise />, name: "", hint: "Fall and Rise", solution: "5 3 1 2 4 6" },
-  0: { component: <TimingIsCrucial />, name: "", hint: "Timing is crucial", solution: "2 4 3 1 5" },
+  14: { component: <TimingIsCrucial />, name: "", hint: "Timing is crucial", solution: "2 4 3 1 5" },
+  15: { component: <OneStepAhead />, name: "one step ahead", hint: "Stay 1 step ahead of the light switch", solution: "if right - left /n if left - bottom, if bottom - right" }
 } 
 
 function sleep(ms) {

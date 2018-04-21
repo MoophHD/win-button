@@ -22,12 +22,13 @@ const Wrapper = styled(View)`
     justify-content: center;
     align-items: center;
     
-    padding: 200px 50px;
+    padding: 175px 50px;
 `
 
 const Btn = styled(Button)`
     height: 75px;
     background-color: ${props => props.active ? activeCl : inactiveCl};
+    margin-top: 8px;
 `
 
 const IconContainer = styled(View)`
@@ -71,7 +72,7 @@ class PauseMenu extends Component {
     }
     
     render() {
-        const { isClearAvailable, actions, isSoundActive, isMusicActive } = this.props;
+        const { isClearAvailable, actions, isSoundActive, isMusicActive, onRestart } = this.props;
         const { setSound, setMusic } = actions;
         
         return(
@@ -97,7 +98,14 @@ class PauseMenu extends Component {
                         </IconWrapper>
                     </TouchableWithoutFeedback>
                 </IconContainer>
-                
+                 <Btn 
+                    onPress={() => onRestart()}
+                    block 
+                    active={true}>
+                    <Text>
+                        Restart
+                    </Text>
+                </Btn>
                 <Btn 
                     onPress={() => this.clear()}
                     block 
@@ -113,7 +121,9 @@ class PauseMenu extends Component {
 }
 
 PauseMenu.propTypes = {
-    isClearAvailable: PropTypes.bool
+    isClearAvailable: PropTypes.bool,
+    onRestart: PropTypes.func,
+    onBack: PropTypes.func
 }
 
 function mapStateToProps(state) {

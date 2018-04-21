@@ -1,4 +1,10 @@
-import { ON_SOLVE, NEXT_LVL, CLEAR, SET_MUSIC, SET_SOUND } from '../constants/game.constants';
+import { ON_SOLVE, NEXT_LVL, CLEAR, SET_MUSIC, SET_SOUND, ON_RESTART } from '../constants/game.constants';
+
+export function onRestart() {
+    return {
+        type: ON_RESTART
+    }
+}
 
 export function onSolve(id) {
     return {

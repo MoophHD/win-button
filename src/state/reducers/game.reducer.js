@@ -7,7 +7,8 @@ import {
     NEXT_LVL,
     CLEAR,
     SET_SOUND,
-    SET_MUSIC
+    SET_MUSIC,
+    ON_RESTART
 } from '../constants/game.constants';
 
 const initialState = {
@@ -31,6 +32,11 @@ let isActive;
 
 export default (state=initialState, action) => {
     switch(action.type) {
+       case ON_RESTART: {
+            return {...state, byid: {...state.byid,
+                [state.current]: { solved: false }
+            }}
+       }
        case SET_SOUND: {
             isActive = action.isActive;
             SoundManager.setActive(isActive)
@@ -66,6 +72,7 @@ export default (state=initialState, action) => {
             let storeSolved = getData("solved");
             let solvedArr = storeSolved || [];
             setData("solved", [...solvedArr, action.id]);
+            
             return {...state, byid: {...state.byid,
                 [action.id]: { solved: true }
             }}
