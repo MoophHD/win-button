@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { View } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import WinBtn from '../../components/WinBtn';
 import Switch from '../../components/Switch';
@@ -20,20 +20,18 @@ class OneStepAhead extends Component {
         this.state = {
             btnLocation: 0 //0 1 2
         }
-        
-        this.handleSwitcherPress = this.handleSwitcherPress.bind(this);
     }
     
-    handleSwitcherPress() {
-        this.setActive(true, () => setTimeout(() => this.setActive(false), 75));
-    }
-    
-    setActive(isActive, cb) {
-        this.setState(() => ({ isWinBtnActive: isActive }), () => { if (cb) cb() });
-    }
-    
+
     handleWinBtnPress() {
-        if (this.props.isSolved) this.props.nextLvl();
+        this.setState(() => ({ btnLocation: (this.state.btnLocation + 1)%3 }))
+        // if (this.props.isSolved) this.props.nextLvl();
+    }
+    
+    handleRealWinBtnPress() {
+        this.setState(() => ({ btnLocation: (this.state.btnLocation + 1)%3 }))
+        this.props.onSolve();
+        setTimeout(() => { this.props.nextLvl() }, 500);
     }
     
     render() {
@@ -43,16 +41,47 @@ class OneStepAhead extends Component {
         return(
             <Container>
                 <Grid>
-                    <Row style={{alignItems: 'center', justifyContent: 'center'}}>
-                        { btnLocation == 0 
-                        &&  <Switch 
-                                onPress={() => this.handleWinBtnPress()}
-                                isActive={ isSolved }/>}
+                    <Row size={40} style={{ alignItems: 'center', justifyContent: 'center'}}>
+                        <View>
+                            { btnLocation == 0 
+                                &&  <WinBtn 
+                                        onPress={() => this.handleWinBtnPress()}
+                                        isActive={ isSolved }/>
+                                
+                            }
+                        { btnLocation == 2 
+                                &&  
+                                <TouchableWithoutFeedback onPress={() => this.handleRealWinBtnPress()}>
+                                    <View style={{backgroundColor: undefined, height: 100, width: 100}} />
+                                </TouchableWithoutFeedback>
+                            }
+                        </View>
+              
                     </Row>
                     <Row size={60}>
                         <Col style={{alignItems: 'center', justifyContent: 'center'}}>
+                            { btnLocation == 1
+                                &&  <WinBtn 
+                                        onPress={() => this.handleWinBtnPress()}
+                                        isActive={ isSolved }/>}
+                           { btnLocation == 0
+                                &&  
+                                <TouchableWithoutFeedback onPress={() => this.handleRealWinBtnPress()}>
+                                    <View style={{backgroundColor: undefined, height: 100, width: 100}} />
+                                </TouchableWithoutFeedback>
+                            }
                         </Col>
                          <Col style={{alignItems: 'center', justifyContent: 'center'}}>
+                           { btnLocation == 2
+                                &&  <WinBtn 
+                                        onPress={() => this.handleWinBtnPress()}
+                                        isActive={ isSolved }/>}
+                           { btnLocation == 1
+                                &&  
+                                <TouchableWithoutFeedback onPress={() => this.handleRealWinBtnPress()}>
+                                    <View style={{backgroundColor: undefined, height: 100, width: 100}} />
+                                </TouchableWithoutFeedback>
+                            }
                         </Col>
                     </Row>
                 </Grid>

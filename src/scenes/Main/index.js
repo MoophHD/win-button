@@ -31,6 +31,9 @@ import LooseConnection from '../LooseConnection';
 import FallAndRise from '../FallAndRise';
 import TimingIsCrucial from '../TimingIsCrucial';
 import OneStepAhead from '../OneStepAhead';
+import Towers from '../Towers';
+import HiddenNumbers from '../HiddenNumbers';
+import RatAndCheese from '../RatAndCheese';
 
 const Container = styled.View`
   flex-grow: 1;
@@ -225,7 +228,7 @@ Main.propTypes = {
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const lvlLegend = {
-  0: { component: <FirstLevel />, name: "1st real quick", hint: "tap the button when it's green", solution: "you can use both your fingers" },
+  99: { component: <FirstLevel />, name: "1st real quick", hint: "tap the button when it's green", solution: "you can use both your fingers" },
   1: { component: <AboutTime />, name: "It's About Time", hint: "circles represent clocks", solution: "< > v v"},
   2: { component: <PiNumber />, name: "The number", hint: "pi number", solution: "3 1 4"},
   3: { component: <Arrows />, name: "Top down", hint: "left arrow - left button, right arrow - right button", solution: "l r r l r r l r"},
@@ -240,7 +243,10 @@ const lvlLegend = {
   12: { component: <LooseConnection />, name: "", hint: "Is there a loose connection?", solution: "1 3 5 6 4 2" },
   13: { component: <FallAndRise />, name: "", hint: "Fall and Rise", solution: "5 3 1 2 4 6" },
   14: { component: <TimingIsCrucial />, name: "", hint: "Timing is crucial", solution: "2 4 3 1 5" },
-  15: { component: <OneStepAhead />, name: "one step ahead", hint: "Stay 1 step ahead of the light switch", solution: "if right - left /n if left - bottom, if bottom - right" }
+  15: { component: <OneStepAhead />, name: "one step ahead", hint: "Stay 1 step ahead of the Button", solution: "if right - left /n if left - bottom, if bottom - right" },
+  16: { component: <Towers />, name: "", hint: "Odd first. Height matters", solution: "1 5 3 6 2 4"},
+  17: { component: <HiddenNumbers />, name: "", hint: "Hidden numbers on the left.", solution: "2 6 5 1 3 4"},
+  0: { component: <RatAndCheese />, name: "", hint: "Lead the mouse to her cheese", solution: "3 4 2 1"}
 } 
 
 function sleep(ms) {
