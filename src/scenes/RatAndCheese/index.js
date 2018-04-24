@@ -17,7 +17,8 @@ const Container = styled.View`
 `
 
 const WinBtnContainer = styled.View`
-    margin: auto;
+    padding-top: 30px;
+    height: 100%;
 `
 
 const SwitchContainer = styled.View`
@@ -25,21 +26,21 @@ const SwitchContainer = styled.View`
     flex-direction: row;
 `
 
-const ImgWrapper = styled.View`
-    padding: 10px;
-    padding-top: 0;
+const NoteImg = styled.View`
     flex: 1;
+    
+    padding: 15px 0;
 `
-
 const disabledSwitchObj = {
+    0: false,
     1: false,
     2: false,
     3: false,
     4: false
 }
 
-const img = require("assets/lvls/ratBuilding.png");
-
+const noteImg = require("assets/lvls/ratBuilding.png");
+// 3 1 4
 const ORDER = '3421';
 class RatAndCheese extends Component {
     constructor(props) {
@@ -51,7 +52,7 @@ class RatAndCheese extends Component {
                 1: false,
                 2: false,
                 3: false,
-                4: false,
+                4: false
             }
         }
         
@@ -61,24 +62,21 @@ class RatAndCheese extends Component {
     }
     
     handleSwitchPress(id) {
-        if (this.state.isSwitchPressed[id]) return;
-        
         this.idleOrder += id;
         
         let currentSwitchState = this.state.isSwitchPressed;
         this.setState(() => ({isSwitchPressed: {...currentSwitchState, [id]: true}}));
-    
+        
         setTimeout(() => {
-           if (this.idleOrder.length == ORDER.length && ORDER.slice(0, this.idleOrder.length) != this.idleOrder) {
+           if (ORDER.slice(0, this.idleOrder.length) != this.idleOrder) {
                 this.idleOrder = '';
+                
                 
                 this.setState(() => ({isSwitchPressed: disabledSwitchObj}));
                 
                 return;
             }
-            
         }, 250)
-
         
      
         if (this.idleOrder == ORDER) {
@@ -98,43 +96,32 @@ class RatAndCheese extends Component {
             <Container>
                 <Grid>
                     <Row style={{alignItems: 'center', justifyContent: 'space-between'}}>
-                        <Note> 
-                            <View style={{padding: 5, flexDirection: 'column', display: 'flex', flex: 1}}>
-                            
-                                    <Image 
-                                        resizeMode="contain"
-                                        source={img}
-                                        style={{
-                                            height: '100%', 
-                                            width: '100%', 
-                                            flex: 1
-                                        }} />
-                          
-                            </View>
+                        <Note>
+                             <NoteImg>
+                                <Image 
+                                    resizeMode="contain"
+                                    source={noteImg}
+                                    style={{height: '100%', width: '100%', flex: 1}} />
+                            </NoteImg>
                         </Note>
-                        
-                         <WinBtnContainer>
+                        <WinBtnContainer>
                             <WinBtn 
                                 onPress={() => this.handleWinBtnPress()}
                                 isActive={ isSolved }/>
                         </WinBtnContainer>
+                      
                     </Row>
                     <Row style={{alignItems: 'center', justifyContent: 'center'}}>
                         <ToolTable>
                             <SwitchContainer>
-                            {this.switchIds.map((id, i) => (
-                                    <View   key={`looseConnection${i}`}
-                                            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                     
+                                 {this.switchIds.map((id, i) => (
                                         <Switch 
                                             strict
                                             isPressed={this.state.isSwitchPressed[id]}
                                             style={{margin: 7.5}}
+                                            key={`piNumSwitch${i}`}
                                             onPress={this.handleSwitchPress.bind(this, id)}/>
-                                    </View>
-                                    ))
-                                     
-                                 }
+                                    ))}
                             </SwitchContainer>
                         </ToolTable>
                     </Row>

@@ -88,6 +88,7 @@ class Blinking extends Component {
         if (idle.length == 5 && PATTERN != idle) {
             this.idle = '';
              this.playLose();
+            // this.setState(() => ())
         } else if (PATTERN == idle) {
             this.props.onSolve();
         }

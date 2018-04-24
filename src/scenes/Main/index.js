@@ -34,6 +34,8 @@ import OneStepAhead from '../OneStepAhead';
 import Towers from '../Towers';
 import HiddenNumbers from '../HiddenNumbers';
 import RatAndCheese from '../RatAndCheese';
+import ArrowsKnow from '../ArrowsKnow';
+import ColorCombination from '../ColorCombination';
 
 const Container = styled.View`
   flex-grow: 1;
@@ -62,7 +64,7 @@ class Main extends Component {
     }
     
     this._solvedFlag = false;
-    this._showedHint = false;
+    this._showedHint = true;
     
     this.handleSolve = this.handleSolve.bind(this);
     this.handleNextLvl = this.handleNextLvl.bind(this);
@@ -228,25 +230,26 @@ Main.propTypes = {
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
 const lvlLegend = {
-  99: { component: <FirstLevel />, name: "1st real quick", hint: "tap the button when it's green", solution: "you can use both your fingers" },
-  1: { component: <AboutTime />, name: "It's About Time", hint: "circles represent clocks", solution: "< > v v"},
-  2: { component: <PiNumber />, name: "The number", hint: "pi number", solution: "3 1 4"},
-  3: { component: <Arrows />, name: "Top down", hint: "left arrow - left button, right arrow - right button", solution: "l r r l r r l r"},
-  4: { component: <SecondaryColors />, name: "Secondary", hint: "You need to pick secondary colors", solution:"purple, green, orange" },
-  5: { component: <OnsAndOffs />, name: "Of Ons and Offs", hint: " 'I' stands for on, 'O' stands for off", solution: "1 3 5" },
-  6: { component: <BlackAndWhite />, name: "Black", hint: "switch's hand should point in the corresponding circle's black side", solution: "< ^ v >"},
-  7: { component: <PrimaryColors />, name: "Primary", hint: "You need to pick primary colors", solution: "yellow, blue, red" },
-  8: { component: <Blinking />, name: "", hint: "Follow the sequence", solution: "2nd, 3rd, 1st, 2nd, 3rd" },
-  9: { component: <OddRule />, name: "", hint: "Odd numbers rule", solution: "1 3 5" },
-  10: { component: <Order />, name: "", hint: "Only one sequence will work", solution: "2 3 1" },
-  11: { component: <News />, name: "", hint: "North is given. Find the others", solution: "2 3 1" },
-  12: { component: <LooseConnection />, name: "", hint: "Is there a loose connection?", solution: "1 3 5 6 4 2" },
-  13: { component: <FallAndRise />, name: "", hint: "Fall and Rise", solution: "5 3 1 2 4 6" },
-  14: { component: <TimingIsCrucial />, name: "", hint: "Timing is crucial", solution: "2 4 3 1 5" },
-  15: { component: <OneStepAhead />, name: "one step ahead", hint: "Stay 1 step ahead of the Button", solution: "if right - left /n if left - bottom, if bottom - right" },
-  16: { component: <Towers />, name: "", hint: "Odd first. Height matters", solution: "1 5 3 6 2 4"},
-  17: { component: <HiddenNumbers />, name: "", hint: "Hidden numbers on the left.", solution: "2 6 5 1 3 4"},
-  0: { component: <RatAndCheese />, name: "", hint: "Lead the mouse to her cheese", solution: "3 4 2 1"}
+  0: { component: <FirstLevel />, name: "", hint: "tap the button when it's green", solution: "you can use both your fingers" },
+  1: { component: <OnsAndOffs />, name: "", hint: "Offs and ons", solution: "1 3 5" },
+  2: { component: <Arrows />, name: "", hint: "top down \n \n left arrow - left button, right arrow - right button", solution: "l r r l r r l r"},
+  3: { component: <ArrowsKnow />, name: "", hint: "The arrows know!", solution: "left top bottom right"}, 
+  4: { component: <AboutTime />, name: "", hint: "It's About Time", solution: "< > v v"},
+  5: { component: <BlackAndWhite />, name: "", hint: "Point at black", solution: "< ^ v >"},
+  6: { component: <PrimaryColors />, name: "Primary", hint: "You need to pick primary colors", solution: "yellow, blue, red" },
+  7: { component: <Blinking />, name: "", hint: "Follow the sequence", solution: "2nd, 3rd, 1st, 2nd, 3rd" },
+  8: { component: <OddRule />, name: "", hint: "Odd numbers rule", solution: "1 3 5" },
+  9: { component: <PiNumber />, name: "", hint: "pi number", solution: "3 1 4"},
+  10: { component: <RatAndCheese />, name: "", hint: "Lead the mouse to her cheese", solution: "3 4 2 1"},
+  11: { component: <Order />, name: "", hint: "Follow the sequence \n but it's harder this time", solution: "34512551" },
+  12: { component: <OneStepAhead />, name: "One step ahead", hint: "Stay 1 step ahead of the Button", solution: "if right - left /n if left - bottom, if bottom - right" },
+  13: { component: <ColorCombination />, name: "", hint: "Color combinations.", solution: "3 4 2 1"},
+  14: { component: <LooseConnection />, name: "", hint: "Is there a loose connection?", solution: "1 3 5 6 4 2" },
+  15: { component: <FallAndRise />, name: "", hint: "Fall and Rise", solution: "5 3 1 2 4 6" },
+  16: { component: <TimingIsCrucial />, name: "", hint: "Timing is crucial", solution: "2 4 3 1 5" },
+  17: { component: <Towers />, name: "", hint: "Odd first. Height matters", solution: "1 5 3 6 2 4"},
+  18: { component: <HiddenNumbers />, name: "", hint: "Hidden numbers on the left.", solution: "2 6 5 1 3 4"},
+  19: { component: <News />, name: "", hint: "North is given. Find the others", solution: "2 3 1" },
 } 
 
 function sleep(ms) {

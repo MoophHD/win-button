@@ -26,17 +26,28 @@ const WinBtnContainer = styled.View`
 const clockImg = require("assets/clock/clock0.png");
 const { width } = Image.resolveAssetSource(clockImg);
 const clockPadding = 5; //supplied to clock directly
-const side = 2 * width * CTRL_IMG_SCALE + clockPadding * 4;
-
+const side = 4 * width * CTRL_IMG_SCALE + clockPadding * 8;
 
 const ClockContainer = styled.View`
+    width: ${ side }px;
+    height: ${ width }px;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 `
 
-const combination = 2011;
-const viewCombination = 9366;
-class AboutTime extends Component {
+
+const NoteImg = styled.View`
+    flex: 1;
+    padding: 0;
+`
+
+const noteImg = require("assets/lvls/arrowsKnow.png");
+
+const combination = 2310;
+class ArrowsKnow extends Component {
     constructor(props) {
         super(props);
         
@@ -45,14 +56,12 @@ class AboutTime extends Component {
             isWin: false,
             
             clockById: {
-                0: 0,
-                1: 0,
-                2: 0,
-                3: 0
+                0: 3,
+                1: 3,
+                2: 3,
+                3: 3
             }
         }
-        
-        //9639
         
         this.handleClockPress = this.handleClockPress.bind(this);
     }
@@ -80,14 +89,12 @@ class AboutTime extends Component {
                 <Grid>
                     <Row style={{alignItems: 'center', justifyContent: 'space-between'}}>
                         <Note>
-                            <View style={{margin: 'auto'}}>
-                                <MyText bold size={75}>
-                                    {viewCombination.toString().slice(0, 2)}
-                                </MyText>
-                                 <MyText bold size={75}>
-                                    {viewCombination.toString().slice(2)}
-                                </MyText>
-                            </View>
+                            <NoteImg>
+                                 <Image 
+                                    resizeMode="contain"
+                                    source={noteImg}
+                                    style={{height: '100%', width: '100%', flex: 1}} />
+                            </NoteImg>
                         </Note>
                         
                         <WinBtnContainer>
@@ -99,11 +106,11 @@ class AboutTime extends Component {
                     
                     <Row>
                         <ToolTable center>
-                               <ClockContainer>
+                            <ClockContainer>
                                 {this.clockIds.map((id, i) => (
                                     <Clock 
-                                        style={{margin: 7.5}}
-                                        key={`newsClock${i}`}
+                                        style={{margin: clockPadding}}
+                                        key={`aboutTimeClock${i}`}
                                         angle={clockById[id]}
                                         onPress={this.handleClockPress.bind(this, id)}/>
                                 ))}
@@ -116,11 +123,11 @@ class AboutTime extends Component {
     }
 }
 
-AboutTime.propTypes = {
+ArrowsKnow.propTypes = {
     onSolve: PropTypes.func,
     isSolved: PropTypes.bool,
     nextLvl: PropTypes.func
 }
 
 
-export default AboutTime;
+export default ArrowsKnow;

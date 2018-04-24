@@ -14,7 +14,8 @@ if (__DEV__) {
 
 let store = configureStore();
 let isSoundActive, isMusicActive;
-const ids = [0,1,2,3,4,5,6,7,8];
+const LVLS = 20;
+const ids = Array.apply(null, {length: LVLS}).map(Function.call, Number);
 class AppEntry extends Component {
     constructor(props) {
     super(props);

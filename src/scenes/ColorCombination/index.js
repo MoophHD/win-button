@@ -23,20 +23,21 @@ const WinBtnContainer = styled.View`
     height: 100%;
 `
 
-const clockImg = require("assets/clock/clock0.png");
-const { width } = Image.resolveAssetSource(clockImg);
-const clockPadding = 5; //supplied to clock directly
-const side = 2 * width * CTRL_IMG_SCALE + clockPadding * 4;
-
-
 const ClockContainer = styled.View`
     display: flex;
     flex-direction: row;
 `
 
-const combination = 2011;
-const viewCombination = 9366;
-class AboutTime extends Component {
+const ImgWrapper = styled.View`
+    flex: 1;
+    padding: 6.5px;
+    padding-top: 0;
+`
+
+const img = require("assets/lvls/colorCombination.png");
+
+const combination = 2301;
+class ColorCombination extends Component {
     constructor(props) {
         super(props);
         
@@ -45,10 +46,10 @@ class AboutTime extends Component {
             isWin: false,
             
             clockById: {
-                0: 0,
-                1: 0,
-                2: 0,
-                3: 0
+                0: 3,
+                1: 3,
+                2: 3,
+                3: 3
             }
         }
         
@@ -80,13 +81,14 @@ class AboutTime extends Component {
                 <Grid>
                     <Row style={{alignItems: 'center', justifyContent: 'space-between'}}>
                         <Note>
-                            <View style={{margin: 'auto'}}>
-                                <MyText bold size={75}>
-                                    {viewCombination.toString().slice(0, 2)}
-                                </MyText>
-                                 <MyText bold size={75}>
-                                    {viewCombination.toString().slice(2)}
-                                </MyText>
+                            <View style={{flexDirection: 'column', display: 'flex', flex: 1}}>
+                   
+                                <ImgWrapper>
+                                    <Image 
+                                        resizeMode="contain"
+                                        source={img}
+                                        style={{height: '100%', width: '100%', flex: 1}} />
+                                </ImgWrapper>
                             </View>
                         </Note>
                         
@@ -99,7 +101,7 @@ class AboutTime extends Component {
                     
                     <Row>
                         <ToolTable center>
-                               <ClockContainer>
+                            <ClockContainer>
                                 {this.clockIds.map((id, i) => (
                                     <Clock 
                                         style={{margin: 7.5}}
@@ -116,11 +118,11 @@ class AboutTime extends Component {
     }
 }
 
-AboutTime.propTypes = {
+ColorCombination.propTypes = {
     onSolve: PropTypes.func,
     isSolved: PropTypes.bool,
     nextLvl: PropTypes.func
 }
 
 
-export default AboutTime;
+export default ColorCombination;
